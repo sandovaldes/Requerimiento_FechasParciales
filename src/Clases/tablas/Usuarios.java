@@ -28,7 +28,6 @@ public class Usuarios {
         this.Nombre_Usuario = Nombre_Usuario;
     }
 
-   
     private int Cod_Usuario;
     private Personas persona;
     private Character Cod_Rol;
@@ -38,15 +37,13 @@ public class Usuarios {
     private Boolean Estado_Usuario;
     private Roles rol;
 
-    public Usuarios(int Cod_Usuario, Personas persona, Character Cod_Rol, Integer Cod_Docente, String Nombre_Usuario, String Contraenia_Usuario, Boolean Estado_Usuario, Roles rol) {
+    public Usuarios(int Cod_Usuario, Roles rol, Personas persona, Character Cod_Rol, String Nombre_Usuario, Boolean Estado_Usuario) {
         this.Cod_Usuario = Cod_Usuario;
+        this.rol = rol;
         this.persona = persona;
         this.Cod_Rol = Cod_Rol;
-        this.Cod_Docente = Cod_Docente;
         this.Nombre_Usuario = Nombre_Usuario;
-        this.Contraenia_Usuario = Contraenia_Usuario;
         this.Estado_Usuario = Estado_Usuario;
-        this.rol = rol;
     }
 
     public static ArrayList getUsuarios(Conexion con) throws SQLException {
@@ -68,8 +65,8 @@ public class Usuarios {
 
             lista.add(usuario);
         }
-        subQuery.cerrarConeccion();
-        subQuery2.cerrarConeccion();
+        subQuery.cerrarConexion();
+        subQuery2.cerrarConexion();
         return lista;
     }
 
@@ -90,12 +87,12 @@ public class Usuarios {
                     rs.getBoolean("Estado_Usuario")
             );
         }
-        subQuery.cerrarConeccion();
-        subQuery2.cerrarConeccion();
+        subQuery.cerrarConexion();
+        subQuery2.cerrarConexion();
         return usuario;
     }
 
-    public static boolean login(String usuario, String contrasenia, Coneccion con) throws SQLException {
+    public static boolean login(String usuario, String contrasenia, Conexion con) throws SQLException {
         boolean resultado = true;
         CallableStatement stmt = null;
         try {
@@ -123,7 +120,7 @@ public class Usuarios {
         boolean resultado = false;
         CallableStatement stmt = null;
         try {
-            stmt = con.getConeccion().prepareCall("{call Nuevo_usuario_disp(?,?,?,?,?)}");
+            stmt = con.getConexion().prepareCall("{call Nuevo_usuario_disp(?,?,?,?,?)}");
             stmt.setInt(1, getCod_Docente());
             stmt.setString(2, String.valueOf(getCod_Rol()));
             stmt.setString(3, getNombre_Usuario());
@@ -190,9 +187,6 @@ public class Usuarios {
     public void setPersona(Personas persona) {
         this.persona = persona;
     }
-
- 
-
 
     public Character getCod_Rol() {
         return Cod_Rol;

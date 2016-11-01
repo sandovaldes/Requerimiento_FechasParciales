@@ -11,6 +11,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -18,9 +20,8 @@ import java.util.Date;
  */
 public class Ubicaciones {
 
-   public Ubicaciones(){
-   }
-
+    public Ubicaciones() {
+    }
 
     private int Cod_Ubicacion;
     private String Edificio;
@@ -32,8 +33,6 @@ public class Ubicaciones {
         this.Estado_Ubicacion = Estado_Ubicacion;
     }
 
-
-
     public ArrayList getUbicaciones(Conexion con) throws SQLException {
         ArrayList lista = new ArrayList();
         con.setRs("Select * from ubicaciones");
@@ -44,26 +43,27 @@ public class Ubicaciones {
                     rs.getInt("Cod_Ubicacion"),
                     rs.getString("Edificio"),
                     rs.getBoolean("Estado_Ubicacion")
-                    
             );
-            
+
             lista.add(ubicacion);
         }
 
         return lista;
     }
 
-      public Integer guardar_Ubicacion(Conexion con) {
+    public Integer guardar_Ubicacion(Conexion con) {
         Integer id = null;
         String sql = "INSERT INTO Ubicaciones (Edificio, Estado_Ubicacion)"
                 + "VALUES ("
-                  + getEdificio() + "', "
+                + getEdificio() + "', "
                 + Util.booleanToInt(isEstado_Ubicacion()) + ")";
-       
+        try {
             id = con.insertStatement(sql);
-     
+        } catch (SQLException ex) {
+            Logger.getLogger(Ubicaciones.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println("ERROR:Fallo en SQL guardar Ubicacion: " + ex.getMessage());
-      
+        }
+
         return id;
     }
 
@@ -72,7 +72,7 @@ public class Ubicaciones {
         String sql = "UPDATE facultad SET Estado_Facultad = "
                 + Util.booleanToInt(isEstado_Ubicacion())
                 + ", Edificio = '" + getEdificio()
-                 + " WHERE Cod_Ubicacion = " + getCod_Ubicacion();
+                + " WHERE Cod_Ubicacion = " + getCod_Ubicacion();
         try {
             con.setQuery(sql);
             resultado = true;
@@ -95,8 +95,7 @@ public class Ubicaciones {
         }
         return resultado;
     }
-    
-    
+
     //    @Override
 //    public String toString() {
 //        return nombreCompleto();
@@ -124,8 +123,4 @@ public class Ubicaciones {
     public void setEstado_Ubicacion(Boolean Estado_Ubicacion) {
         this.Estado_Ubicacion = Estado_Ubicacion;
     }
-  
-    
-    
-
 }
