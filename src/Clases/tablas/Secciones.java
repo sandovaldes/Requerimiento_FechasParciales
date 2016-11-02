@@ -1,4 +1,4 @@
-/*
+/*Lucia
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -11,6 +11,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -32,8 +34,12 @@ public class Secciones {
         this.Nombre_Seccion = Nombre_Seccion;
         this.Estado_Seccion = Estado_Seccion;
     }
+    
+    public Secciones(int Cod_Seccion){
+        this.Cod_Seccion = Cod_Seccion;
+    }
 
-    public ArrayList getSecciones(Conexion con) throws SQLException {
+    public static ArrayList getSecciones(Conexion con) throws SQLException {
         ArrayList lista = new ArrayList();
         con.setRs("Select * from secciones");
         ResultSet rs = con.getRs();
@@ -51,29 +57,35 @@ public class Secciones {
         return lista;
     }
 
-    public boolean guardar_Secciones(Conexion con) {
-        boolean resultado = false;
+   // public boolean guardar_Secciones(Conexion con) {
+       public Integer guardar_Secciones(Conexion con) {
+        Integer id = null;
+        //boolean resultado = false;
         String sql = "INSERT INTO secciones (Cod_Materia, Nombre_Seccion, Estado_Seccion) "
                 + "VALUES ('"
-                + getCod_Seccion() + "', '"
+                
                 + getCod_Materia() + "', '"
                 + getNombre_Seccion() + "', "
                 + Util.booleanToInt(isEstado_Seccion()) + ")";
         try {
-            con.setQuery(sql);
-            resultado = true;
+            id = con.insertStatement(sql);
+           // con.setQuery(sql);
+          //  resultado = true;
         } catch (SQLException ex) {
+             Logger.getLogger(Secciones.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println("ERROR:Fallo en SQL guardar seccion: " + ex.getMessage());
         }
-        return resultado;
+        //return resultado;
+        return id;
+       
     }
 
     public boolean actualizar_seccion(Conexion con) {
         boolean resultado = false;
-        String sql = "UPDATE roles SET Cod_Seccion = "
+        String sql = "UPDATE secciones SET Cod_Seccion = "
                 + ", Cod_Materia = '" + getCod_Materia()
                 + ", Nombre_Seccion = '" + getNombre_Seccion()
-                + "' WHERE Cod_Seccion = '" + getCod_Seccion() + "'";
+                + "' WHERE Cod_Seccion = '" + getCod_Seccion();
         try {
             con.setQuery(sql);
             resultado = true;
@@ -85,7 +97,7 @@ public class Secciones {
 
     public boolean eliminar_seccion(Conexion con) {
         boolean resultado = false;
-        String sql = "UPDATE  SET Estado_Seccion = "
+        String sql = "UPDATE secciones SET Estado_Seccion = "
                 + Util.booleanToInt(false)
                 + " WHERE Cod_Seccion = '" + getCod_Seccion() + "'";
         try {
@@ -128,4 +140,22 @@ public class Secciones {
     public void setEstado_Seccion(Boolean Estado_Seccion) {
         this.Estado_Seccion = Estado_Seccion;
     }
+    
+    @Override
+    public String toString() {
+       
+        return this.getNombre_Seccion();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        try {
+            Secciones seccion = (Secciones) obj;
+            return this.Cod_Seccion == seccion.getCod_Seccion();
+           
+        } catch (Exception ex) {
+            return false;
+        }
+    }
+    
 }

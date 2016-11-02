@@ -1,4 +1,4 @@
-/*
+/*lucia
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -26,14 +26,19 @@ public class Facultades {
     private int Cod_Facultad;
     private String Nombre_Facultad;
     private Boolean Estado_Facultad;
+    
+    public Facultades(int Cod_Facultad){
+        this.Cod_Facultad = Cod_Facultad;
+    }
 
     public Facultades(int Cod_Facultad, String Nombre_Facultad, Boolean Estado_Facultad) {
         this.Cod_Facultad = Cod_Facultad;
         this.Nombre_Facultad = Nombre_Facultad;
         this.Estado_Facultad = Estado_Facultad;
     }
-
-    public ArrayList getFacultades(Conexion con) throws SQLException {
+   
+     public static ArrayList getFacultades(Conexion con) throws SQLException {
+   
         ArrayList lista = new ArrayList();
         con.setRs("Select * from facultades");
         ResultSet rs = con.getRs();
@@ -53,7 +58,7 @@ public class Facultades {
 
     public Integer guardar_facultad(Conexion con) {
         Integer id = null;
-        String sql = "INSERT INTO facultad (Nombre_Facultad, Estado_Facultad)"
+        String sql = "INSERT INTO facultades (Nombre_Facultad, Estado_Facultad)"
                 + "VALUES ("
                 + getNombre_Facultad() + "', "
                 + Util.booleanToInt(isEstado_Facultad()) + ")";
@@ -68,7 +73,7 @@ public class Facultades {
 
     public boolean actualizar_facultad(Conexion con) {
         boolean resultado = false;
-        String sql = "UPDATE facultad SET Estado_Facultad = "
+        String sql = "UPDATE facultades SET Estado_Facultad = "
                 + Util.booleanToInt(isEstado_Facultad())
                 + ", Nombre_Facultad = '" + getNombre_Facultad()
                 + " WHERE Cod_Facultad = " + getCod_Facultad();
@@ -83,7 +88,7 @@ public class Facultades {
 
     public boolean eliminar_facultad(Conexion con) {
         boolean resultado = false;
-        String sql = "UPDATE facultad SET Estado_Facultad = "
+        String sql = "UPDATE facultades SET Estado_Facultad = "
                 + Util.booleanToInt(false)
                 + " WHERE Cod_Facultad = " + getCod_Facultad();
         try {
@@ -119,8 +124,18 @@ public class Facultades {
         this.Estado_Facultad = Estado_Facultad;
     }
 
-    //    @Override
-//    public String toString() {
-//        return nombreCompleto();
-//    }
+    @Override
+    public String toString() {
+        return this.getNombre_Facultad();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        try {
+            Facultades facultad = (Facultades) obj;
+            return this.Cod_Facultad == facultad.getCod_Facultad();
+        } catch (Exception ex) {
+            return false;
+        }
+    }
 }

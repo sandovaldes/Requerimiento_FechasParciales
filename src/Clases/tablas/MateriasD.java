@@ -1,7 +1,7 @@
-/*
+/*lucia
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * and open the template in the editor. 
  */
 package Clases.tablas;
 
@@ -18,7 +18,7 @@ import java.util.logging.Logger;
  *
  * @author Erika
  */
-public class Materias {
+public class MateriasD {
 
     private int Cod_Materia;
     private int Cod_Facultad;
@@ -28,10 +28,10 @@ public class Materias {
     private String Ciclo_Materia;
     private Boolean Estado_Materia;
     
-    public Materias() {
+    public MateriasD() {
     }
 
-    public Materias(int Cod_Materia, int Cod_Facultad, String Abrev_Materia, String Nombre_Materia, int UV, String Ciclo_Materia, Boolean Estado_Materia) {
+    public MateriasD(int Cod_Materia, int Cod_Facultad, String Abrev_Materia, String Nombre_Materia, int UV, String Ciclo_Materia, Boolean Estado_Materia) {
         this.Cod_Materia = Cod_Materia;
         this.Cod_Facultad = Cod_Facultad;
         this.Abrev_Materia = Abrev_Materia;
@@ -41,13 +41,13 @@ public class Materias {
         this.Estado_Materia = Estado_Materia;
     }
 
-    public ArrayList getMaterias(Conexion con) throws SQLException {
+     public static ArrayList getMaterias(Conexion con) throws SQLException {
         ArrayList lista = new ArrayList();
-        con.setRs("Select * from materias");
+        con.setRs("SELECT * FROM materias WHERE Estado_Materia = 1");
         ResultSet rs = con.getRs();
 
         while (rs.next()) {
-            Materias materia = new Materias(
+            MateriasD materia = new MateriasD(
                     rs.getInt("Cod_Materia"),
                     rs.getInt("Cod_Facultad"),
                     rs.getString("Abrev_Materia"),
@@ -62,12 +62,12 @@ public class Materias {
 
         return lista;
     }
-
+    
     public Integer guardar_materias(Conexion con) {
         Integer id = null;
 
-        String sql = "INSERT INTO materias (Cod_Facultad,Abreviatura_Materia,Nombre_Materia,UV,Ciclo_Materia,Estado_Materia) "
-                + " VALUES (" + getCod_Facultad() + ", '" + getAbreviatura_Materia() + "', '"
+        String sql = "INSERT INTO materias (Cod_Facultad,Abrev_Materia,Nombre_Materia,UV,Ciclo_Materia,Estado_Materia) "
+                + " VALUES (" + getCod_Facultad() + ", '" + getAbrev_Materia() + "', '"
                 + getNombre_Materia() + "', " + getUV() + ", '" + getCiclo_Materia() + "', "
                 + Util.booleanToInt(isEstado_Materia()) + ")";
         System.out.println("SQL: " + sql);
@@ -75,18 +75,18 @@ public class Materias {
             id = con.insertStatement(sql);
         } catch (SQLException ex) {
             System.out.println("ERROR:Fallo en SQL guardar materia: " + ex.getMessage());
-            Logger.getLogger(Materias.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MateriasD.class.getName()).log(Level.SEVERE, null, ex);
         }
         return id;
     }
-
+    
     public boolean actualizar_materia(Conexion con) {
         boolean valor = false;
         String sql;
         try {
             sql = ("UPDATE materias SET "
                     + "Cod_Facultad = " + getCod_Facultad() + ", "
-                    + "Abrev_Materia = '" + getAbreviatura_Materia() + "', "
+                    + "Abrev_Materia = '" + getAbrev_Materia() + "', "
                     + "Nombre_Materia = '" + getNombre_Materia() + "', "
                     + "UV = " + getUV() + ", "
                     + "Ciclo_Materia = '" + getCiclo_Materia() + "', "
@@ -141,13 +141,13 @@ public class Materias {
         this.Cod_Facultad = Cod_Facultad;
     }
 
-    public String getAbreviatura_Materia() {
+    /*public String getAbreviatura_Materia() {
         return Abrev_Materia;
     }
-
+        NO
     public void setAbreviatura_Materia(String Abreviatura_Materia) {
         this.Abrev_Materia = Abreviatura_Materia;
-    }
+    }*/
 
     public String getNombre_Materia() {
         return Nombre_Materia;
@@ -181,8 +181,8 @@ public class Materias {
         this.Estado_Materia = Estado_Materia;
     }
 
-    //    @Override
-//    public String toString() {
-//        return nombreCompleto();
-//    }
+    @Override
+    public String toString() {
+        return this.Nombre_Materia;
+    }
 }

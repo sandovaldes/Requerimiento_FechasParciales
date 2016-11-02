@@ -188,7 +188,7 @@ Facultades facultad;
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_Guardar_FacultadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Guardar_FacultadActionPerformed
-        Facultades facultad = new Facultades();
+      /*  Facultades facultad = new Facultades();
         try {
   //          UnidadAcademica unidad = (UnidadAcademica) cbx_Cod_Unid_Academica.getSelectedItem();
             facultad.setNombre_Facultad(this.Txt_Nombre_Facultad.getText());
@@ -211,11 +211,11 @@ Facultades facultad;
             JOptionPane.showMessageDialog(null, "El Registro se Guardo con Exito");
         } else {
             JOptionPane.showMessageDialog(null, "Error , Fallo al Guardar el Registro");
-        }
+        }*/
     }//GEN-LAST:event_btn_Guardar_FacultadActionPerformed
 
     private void btn_Eliminar_FacultadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Eliminar_FacultadActionPerformed
-        Facultades facultad = (Facultades) cbx_facultades.getSelectedItem();
+    /*    Facultades facultad = (Facultades) cbx_facultades.getSelectedItem();
         if (facultad != null && facultad.getNombre_Facultad() != null) {
             int result = JOptionPane.showConfirmDialog(this, "Desea Eliminar el Registro", "Salir", JOptionPane.YES_NO_OPTION);
             if (result == JOptionPane.YES_NO_OPTION) {
@@ -228,10 +228,11 @@ Facultades facultad;
             }
         }
         this.obtenerFacultades();
+        */
     }//GEN-LAST:event_btn_Eliminar_FacultadActionPerformed
 
     private void btn_Actualizar_FacultadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Actualizar_FacultadActionPerformed
-        Facultades facultad = (Facultades) cbx_facultades.getSelectedItem();
+      /*  Facultades facultad = (Facultades) cbx_facultades.getSelectedItem();
 //        UnidadAcademica unidad = (UnidadAcademica) cbx_Cod_Unid_Academica.getSelectedItem();
         if (facultad != null && facultad.getNombre_Facultad() != null) {
             facultad.setNombre_Facultad(this.Txt_Nombre_Facultad.getText());
@@ -245,17 +246,19 @@ Facultades facultad;
             }
         }
         this.obtenerFacultades();
+              */
     }//GEN-LAST:event_btn_Actualizar_FacultadActionPerformed
 
     private void btn_Nuevo_FacultadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Nuevo_FacultadActionPerformed
-        this.Txt_Nombre_Facultad.setText("");
+    /*    this.Txt_Nombre_Facultad.setText("");
         this.chkb_estado_facultad.setSelected(false);
         this.cbx_Cod_Unid_Academica.setSelectedIndex(0);
         this.cbx_facultades.setSelectedIndex(0);
+            */
     }//GEN-LAST:event_btn_Nuevo_FacultadActionPerformed
 
     private void cbx_facultadesItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbx_facultadesItemStateChanged
-        if (evt.getStateChange() == ItemEvent.SELECTED) {
+   /*     if (evt.getStateChange() == ItemEvent.SELECTED) {
             Facultades item = (Facultades) evt.getItem();
             if (item.getNombre_Facultad() != null) {
                 controlesFacultades(false);
@@ -266,6 +269,7 @@ Facultades facultad;
                 controlesFacultades(true);
             }
         }
+           */
     }//GEN-LAST:event_cbx_facultadesItemStateChanged
 
 
