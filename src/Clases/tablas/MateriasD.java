@@ -141,14 +141,6 @@ public class MateriasD {
         this.Cod_Facultad = Cod_Facultad;
     }
 
-    /*public String getAbreviatura_Materia() {
-        return Abrev_Materia;
-    }
-        NO
-    public void setAbreviatura_Materia(String Abreviatura_Materia) {
-        this.Abrev_Materia = Abreviatura_Materia;
-    }*/
-
     public String getNombre_Materia() {
         return Nombre_Materia;
     }

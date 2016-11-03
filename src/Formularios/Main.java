@@ -147,14 +147,14 @@ public class Main extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void menuMttoPersonasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuMttoPersonasActionPerformed
-        try {
-            Personas personaForm = new Personas();
-            jDesktopPane1.add(personaForm);
-            personaForm.show();
-            personaForm.setMaximizable(true);
-        } catch (Exception ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//        try {
+//            Personas personaForm = new Personas();
+//            jDesktopPane1.add(personaForm);
+//            personaForm.show();
+//            personaForm.setMaximizable(true);
+//        } catch (Exception ex) {
+//            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+//        }
     }//GEN-LAST:event_menuMttoPersonasActionPerformed
 
     private void menuMttoMateriasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuMttoMateriasActionPerformed
@@ -179,7 +179,7 @@ public class Main extends javax.swing.JFrame {
 
     private void submenuF1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submenuF1ActionPerformed
         try {
-            Reserva_Parcial reservas = new Reserva_Parcial();
+            Reserva_Parcial reservas = new Reserva_Parcial(usuario);
             jDesktopPane1.add(reservas);
             reservas.show();
         } catch (Exception ex) {

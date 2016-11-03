@@ -27,7 +27,7 @@ public class Conexion {
             //obtenemos el driver de para mysql
             Class.forName("com.mysql.jdbc.Driver");
             // Se obtiene una conexión con la base de datos.
-            conexion = DriverManager.getConnection("jdbc:mysql://localhost/disponibilidad_docente", "programacion4", "programacion4");
+            conexion = DriverManager.getConnection("jdbc:mysql://localhost/auto_formulario", "programacion4", "programacion4");
             // Permite ejecutar sentencias SQL sin parámetros
             sentencia = conexion.createStatement();
         } catch (ClassNotFoundException e1) {

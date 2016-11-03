@@ -39,7 +39,7 @@ public class Aulas {
 
     public static ArrayList getAulas(Conexion con) throws SQLException {
         ArrayList lista = new ArrayList();
-        con.setRs("Select * from aulas");
+        con.setRs("Select * FROM aulas WHERE Estado_Ubicacion = 1");
         ResultSet rs = con.getRs();
 
         while (rs.next()) {

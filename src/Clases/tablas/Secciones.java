@@ -41,7 +41,7 @@ public class Secciones {
 
     public static ArrayList getSecciones(Conexion con) throws SQLException {
         ArrayList lista = new ArrayList();
-        con.setRs("Select * from secciones");
+        con.setRs("Select * from secciones WHERE Estado_Seccion = 1");
         ResultSet rs = con.getRs();
 
         while (rs.next()) {

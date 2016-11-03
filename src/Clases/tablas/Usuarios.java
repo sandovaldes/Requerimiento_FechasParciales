@@ -96,7 +96,7 @@ public class Usuarios {
         boolean resultado = true;
         CallableStatement stmt = null;
         try {
-            stmt = con.getConexion().prepareCall("{call Login_usuario(?,?,?)}");
+            stmt = con.getConexion().prepareCall("{CALL Login_usuario(?,?,?)}");
             stmt.setString(1, usuario);
             stmt.setString(2, contrasenia);
             stmt.registerOutParameter(3, Types.TINYINT);
