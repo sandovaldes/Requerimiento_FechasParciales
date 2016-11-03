@@ -27,7 +27,7 @@ public class MateriasD {
     private int UV;
     private String Ciclo_Materia;
     private Boolean Estado_Materia;
-    
+
     public MateriasD() {
     }
 
@@ -41,7 +41,7 @@ public class MateriasD {
         this.Estado_Materia = Estado_Materia;
     }
 
-     public static ArrayList getMaterias(Conexion con) throws SQLException {
+    public static ArrayList getMaterias(Conexion con) throws SQLException {
         ArrayList lista = new ArrayList();
         con.setRs("SELECT * FROM materias WHERE Estado_Materia = 1");
         ResultSet rs = con.getRs();
@@ -62,7 +62,27 @@ public class MateriasD {
 
         return lista;
     }
-    
+
+    public static MateriasD getMaterias(int id, Conexion con) throws SQLException {
+        MateriasD resultado = null;
+        con.setRs("SELECT * FROM materias WHERE Cod_Materia = " + id);
+        ResultSet rs = con.getRs();
+
+        while (rs.next()) {
+            resultado = new MateriasD(
+                    rs.getInt("Cod_Materia"),
+                    rs.getInt("Cod_Facultad"),
+                    rs.getString("Abrev_Materia"),
+                    rs.getString("Nombre_Materia"),
+                    rs.getInt("UV"),
+                    rs.getString("Ciclo_Materia"),
+                    rs.getBoolean("Estado_Materia")
+            );
+        }
+
+        return resultado;
+    }
+
     public Integer guardar_materias(Conexion con) {
         Integer id = null;
 
@@ -79,7 +99,7 @@ public class MateriasD {
         }
         return id;
     }
-    
+
     public boolean actualizar_materia(Conexion con) {
         boolean valor = false;
         String sql;
@@ -116,7 +136,7 @@ public class MateriasD {
         }
         return resultado;
     }
-    
+
     public String getAbrev_Materia() {
         return Abrev_Materia;
     }

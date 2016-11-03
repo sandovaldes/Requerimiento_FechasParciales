@@ -36,16 +36,16 @@ public class Reserva_Parcial extends javax.swing.JInternalFrame {
         con = new Conexion();
         this.usuario = usuario;
         txt_usuario.setText(this.usuario.getPersona().nombreCompleto());
-        
-        for (Object o : Clases.tablas.MateriasD.getMaterias(con)){
+
+        for (Object o : Clases.tablas.MateriasD.getMaterias(con)) {
             cbx_MateriaP.addItem(o);
         }
-        
-        for (Object o : Clases.tablas.Aulas.getAulas(con)){
+
+        for (Object o : Clases.tablas.Aulas.getAulas(con)) {
             cbx_AulaP.addItem(o);
         }
-        
-        for (Object o : Clases.tablas.Secciones.getSecciones(con)){
+
+        for (Object o : Clases.tablas.Secciones.getSecciones(con)) {
             cbx_SeccionP.addItem(o);
         }
     }
@@ -59,6 +59,9 @@ public class Reserva_Parcial extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        grp_Aula_Adicional = new javax.swing.ButtonGroup();
+        grp_Vigilancia = new javax.swing.ButtonGroup();
+        grp_Instructor = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         lbl_Titulo_ResParcial = new javax.swing.JLabel();
         cbx_MateriaP = new javax.swing.JComboBox();
@@ -84,14 +87,11 @@ public class Reserva_Parcial extends javax.swing.JInternalFrame {
         rbtn_SiInstP = new javax.swing.JRadioButton();
         rbtn_NoInstP = new javax.swing.JRadioButton();
         btn_GenerarReporteP = new javax.swing.JButton();
-        btn_MenuPrincipalP = new javax.swing.JButton();
-        btn_CancelarP = new javax.swing.JButton();
-        btn_SalirP = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbl_ReservParcial = new javax.swing.JTable();
         cbx_HorariolP1 = new javax.swing.JComboBox();
-        cbx_diaParcial = new javax.swing.JComboBox();
         txt_usuario = new javax.swing.JTextField();
+        dpk_dia_parcial = new org.jdesktop.swingx.JXDatePicker();
 
         setClosable(true);
 
@@ -135,16 +135,22 @@ public class Reserva_Parcial extends javax.swing.JInternalFrame {
 
         cbx_HorariolP.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "6:30-7:20", "7:20-8:10", "8:15-9:05", "9:05-9:55", "10:00-10:50", "10:50-11:40", "11:40-12:30", "13:00-13:50", "13:50-14:40", "14:40-15:30", "15:30-16:20", "16:20-17:10", "17:20-18:10", "18:10-19:00", "19:00-19:50", "19:50-20:40", "20:40-21:30" }));
 
+        grp_Aula_Adicional.add(rbtn_SiAulaP);
         rbtn_SiAulaP.setText("Si");
 
+        grp_Vigilancia.add(rbtn_NoVigilanteP);
+        rbtn_NoVigilanteP.setSelected(true);
         rbtn_NoVigilanteP.setText("No");
 
         lbl_AulaP7.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lbl_AulaP7.setForeground(new java.awt.Color(255, 255, 255));
         lbl_AulaP7.setText("¿Vigilancia?");
 
+        grp_Vigilancia.add(rbtn_SiVigilanteP);
         rbtn_SiVigilanteP.setText("Si");
 
+        grp_Aula_Adicional.add(rbtn_NoAulaP);
+        rbtn_NoAulaP.setSelected(true);
         rbtn_NoAulaP.setText("No");
 
         lbl_AulaP3.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
@@ -155,38 +161,39 @@ public class Reserva_Parcial extends javax.swing.JInternalFrame {
         lbl_AulaP8.setForeground(new java.awt.Color(255, 255, 255));
         lbl_AulaP8.setText("¿Instructor?");
 
+        grp_Instructor.add(rbtn_SiInstP);
         rbtn_SiInstP.setText("Si");
 
+        grp_Instructor.add(rbtn_NoInstP);
+        rbtn_NoInstP.setSelected(true);
         rbtn_NoInstP.setText("No");
 
-        btn_GenerarReporteP.setText("Generar Reporte");
+        btn_GenerarReporteP.setText("Guardar");
         btn_GenerarReporteP.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_GenerarReportePActionPerformed(evt);
             }
         });
 
-        btn_MenuPrincipalP.setText("Menú Principal");
-
-        btn_CancelarP.setText("Cancelar");
-
-        btn_SalirP.setText("Salir");
-
         tbl_ReservParcial.setAutoCreateRowSorter(true);
         tbl_ReservParcial.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Docente", "Dia", "Hora", "Aula Adicional"
+                "Materia", "Dia", "Hora", "Aula Adicional", "Vigilancia", "Instructor"
             }
         ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false
+            Class[] types = new Class [] {
+                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Boolean.class, java.lang.Boolean.class, java.lang.Boolean.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
@@ -194,6 +201,7 @@ public class Reserva_Parcial extends javax.swing.JInternalFrame {
         });
         tbl_ReservParcial.setCellSelectionEnabled(true);
         jScrollPane1.setViewportView(tbl_ReservParcial);
+        tbl_ReservParcial.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 
         cbx_HorariolP1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "6:30-7:20", "7:20-8:10", "8:15-9:05", "9:05-9:55", "10:00-10:50", "10:50-11:40", "11:40-12:30", "13:00-13:50", "13:50-14:40", "14:40-15:30", "15:30-16:20", "16:20-17:10", "17:20-18:10", "18:10-19:00", "19:00-19:50", "19:50-20:40", "20:40-21:30" }));
         cbx_HorariolP1.addActionListener(new java.awt.event.ActionListener() {
@@ -201,8 +209,6 @@ public class Reserva_Parcial extends javax.swing.JInternalFrame {
                 cbx_HorariolP1ActionPerformed(evt);
             }
         });
-
-        cbx_diaParcial.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado" }));
 
         txt_usuario.setEnabled(false);
 
@@ -245,17 +251,17 @@ public class Reserva_Parcial extends javax.swing.JInternalFrame {
                             .addComponent(lbl_AulaP5)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(10, 10, 10)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(lbl_AulaP2)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(cbx_HorariolP, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addGap(47, 47, 47)
                                         .addComponent(cbx_HorariolP1, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(lbl_AulaP1)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(cbx_diaParcial, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(dpk_dia_parcial, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addGap(46, 46, 46)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -277,23 +283,14 @@ public class Reserva_Parcial extends javax.swing.JInternalFrame {
                                     .addComponent(rbtn_NoAulaP))))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(290, 290, 290)
-                .addComponent(btn_GenerarReporteP)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(lbl_Titulo_ResParcial)
-                        .addGap(218, 218, 218))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(btn_MenuPrincipalP)
-                        .addGap(18, 18, 18)
-                        .addComponent(btn_CancelarP)
-                        .addGap(18, 18, 18)
-                        .addComponent(btn_SalirP)
-                        .addContainerGap())))
+                .addComponent(lbl_Titulo_ResParcial)
+                .addGap(218, 218, 218))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(306, 306, 306)
+                .addComponent(btn_GenerarReporteP)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -324,7 +321,7 @@ public class Reserva_Parcial extends javax.swing.JInternalFrame {
                     .addComponent(rbtn_SiAulaP)
                     .addComponent(rbtn_NoAulaP)
                     .addComponent(lbl_AulaP3)
-                    .addComponent(cbx_diaParcial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(dpk_dia_parcial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbl_AulaP2)
@@ -338,15 +335,10 @@ public class Reserva_Parcial extends javax.swing.JInternalFrame {
                     .addComponent(lbl_AulaP8)
                     .addComponent(rbtn_SiInstP)
                     .addComponent(rbtn_NoInstP))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
                 .addComponent(btn_GenerarReporteP)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btn_MenuPrincipalP)
-                    .addComponent(btn_CancelarP)
-                    .addComponent(btn_SalirP))
                 .addContainerGap())
         );
 
@@ -369,9 +361,30 @@ public class Reserva_Parcial extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_GenerarReportePActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_GenerarReportePActionPerformed
-
+        Clases.tablas.Aulas aula = (Clases.tablas.Aulas) cbx_AulaP.getSelectedItem();
+        Clases.tablas.Secciones seccion = (Clases.tablas.Secciones) cbx_SeccionP.getSelectedItem();
+        Clases.tablas.MateriasD materia = (Clases.tablas.MateriasD) cbx_MateriaP.getSelectedItem();
+        
+        Clases.tablas.ParcialReservas reserva = new Clases.tablas.ParcialReservas();
+        
+        reserva.setCod_Aula(aula.getCod_Aulas());
+        reserva.setCod_Materia(materia.getCod_Materia());
+        reserva.setCod_Seccion(seccion.getCod_Seccion());
+        reserva.setCod_Usuario(usuario.getCod_Usuario());
+        reserva.setDia_Parcial(dpk_dia_parcial.getDate());
+        reserva.setHora_Parcial(this.cbx_HorariolP.getSelectedItem() + "-" + this.cbx_HorariolP1.getSelectedItem());
+        reserva.setAula_Adicional_Parcial(this.rbtn_SiAulaP.isSelected());
+        reserva.setVigilancia_PArcial(this.rbtn_SiVigilanteP.isSelected());
+        reserva.setInstructor(this.rbtn_SiInstP.isSelected());
+        reserva.setEstado_ReservaParcial(true);
         DefaultTableModel model = (DefaultTableModel) tbl_ReservParcial.getModel();
-        model.addRow(new Object[]{usuario.getNombre_Usuario(), cbx_diaParcial.getSelectedItem(), cbx_HorariolP.getSelectedItem() + " " + cbx_HorariolP1.getSelectedItem(), true});
+        if (reserva.GuardarFormulario(con) != null){
+            JOptionPane.showMessageDialog(null, "El Registro de guardo con Exito");
+            model.addRow(new Object[]{materia.getNombre_Materia(), dpk_dia_parcial.getDate(), cbx_HorariolP.getSelectedItem() + " " + cbx_HorariolP1.getSelectedItem(), this.rbtn_SiAulaP.isSelected(), this.rbtn_SiVigilanteP.isSelected(), this.rbtn_SiInstP.isSelected()});
+        } else {
+            JOptionPane.showMessageDialog(null, "Error , Fallo al Guardar el Registro");
+        }
+        
 
     }//GEN-LAST:event_btn_GenerarReportePActionPerformed
 
@@ -381,16 +394,16 @@ public class Reserva_Parcial extends javax.swing.JInternalFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btn_CancelarP;
     private javax.swing.JButton btn_GenerarReporteP;
-    private javax.swing.JButton btn_MenuPrincipalP;
-    private javax.swing.JButton btn_SalirP;
     private javax.swing.JComboBox cbx_AulaP;
     private javax.swing.JComboBox cbx_HorariolP;
     private javax.swing.JComboBox cbx_HorariolP1;
     private javax.swing.JComboBox cbx_MateriaP;
     private javax.swing.JComboBox cbx_SeccionP;
-    private javax.swing.JComboBox cbx_diaParcial;
+    private org.jdesktop.swingx.JXDatePicker dpk_dia_parcial;
+    private javax.swing.ButtonGroup grp_Aula_Adicional;
+    private javax.swing.ButtonGroup grp_Instructor;
+    private javax.swing.ButtonGroup grp_Vigilancia;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator2;

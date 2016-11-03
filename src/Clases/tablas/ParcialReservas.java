@@ -13,6 +13,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -29,12 +31,14 @@ public class ParcialReservas {
     private int Cod_Aula;
     private int Cod_Seccion;
     private Date Dia_Parcial;
-    private Date Hora_Parcial;
+    private String Hora_Parcial;
     private Boolean Aula_Adicional_Parcial;
     private Boolean Vigilancia_PArcial;
+    private Boolean Instructor;
     private Boolean Estado_ReservaParcial;
+    private MateriasD materia;
 
-    public ParcialReservas(int Cod_Parcial_Reserva, int Cod_Materia, int Cod_Usuario, int Cod_Aula, int Cod_Seccion, Date Dia_Parcial, Date Hora_Parcial, Boolean Aula_Adicional_Parcial, Boolean Vigilancia_PArcial, Boolean Estado_ReservaParcial) {
+    public ParcialReservas(int Cod_Parcial_Reserva, int Cod_Materia, int Cod_Usuario, int Cod_Aula, int Cod_Seccion, Date Dia_Parcial, String Hora_Parcial, Boolean Aula_Adicional_Parcial, Boolean Vigilancia_PArcial, Boolean Instructor, Boolean Estado_ReservaParcial) {
         this.Cod_Parcial_Reserva = Cod_Parcial_Reserva;
         this.Cod_Materia = Cod_Materia;
         this.Cod_Usuario = Cod_Usuario;
@@ -44,12 +48,14 @@ public class ParcialReservas {
         this.Hora_Parcial = Hora_Parcial;
         this.Aula_Adicional_Parcial = Aula_Adicional_Parcial;
         this.Vigilancia_PArcial = Vigilancia_PArcial;
+        this.Instructor = Instructor;
         this.Estado_ReservaParcial = Estado_ReservaParcial;
     }
 
-    public ArrayList getParcialReservas(Conexion con) throws SQLException {
+    public static ArrayList getParcialReservas(Conexion con) throws SQLException {
+        Conexion subquery = new Conexion();
         ArrayList lista = new ArrayList();
-        con.setRs("Select * from parcial_reservas");
+        con.setRs("SELECT * FROM parcial_revervas WHERE Estado_ReservaParcial = 1");
         ResultSet rs = con.getRs();
 
         while (rs.next()) {
@@ -60,11 +66,14 @@ public class ParcialReservas {
                     rs.getInt("Cod_Aula"),
                     rs.getInt("Cod_Seccion"),
                     rs.getDate("Dia_Parcial"),
-                    rs.getDate("Hora_Parcial"),
+                    rs.getString("Hora_Parcial"),
                     rs.getBoolean("Aula_Adicional_Parcial"),
-                    rs.getBoolean("Estado_Ubicacion"),
+                    rs.getBoolean("Vigilancia_PArcial"),
+                    rs.getBoolean("Instructor"),
                     rs.getBoolean("Estado_ReservaParcial")
             );
+            
+            rp.setMateria(MateriasD.getMaterias(rs.getInt("Cod_Materia"), con));
 
             lista.add(rp);
         }
@@ -72,22 +81,23 @@ public class ParcialReservas {
         return lista;
     }
 
-    public boolean GuardarFormulario(Conexion con) {
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        boolean valor = false;
+    public Integer GuardarFormulario(Conexion con) {
+        Integer id = null;
+        DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        String sql = "INSERT INTO parcial_revervas"
+                    + "(Cod_Materia, Cod_Usuario, Cod_Aula, Cod_Seccion, Dia_Parcial, Hora_Parcial, Aula_Adicional_Parcial, Vigilancia_PArcial, Instructor, Estado_ReservaParcial)"
+                    + " VALUES (" + getCod_Materia() + ", " + getCod_Usuario() + ", "
+                    + getCod_Aula() + ", " + getCod_Seccion() + " , STR_TO_DATE('" + df.format(getDia_Parcial()) + "', '%d/%m/%Y'), '"
+                    + getHora_Parcial() + "', "
+                    + Util.booleanToInt(isAula_Adicional_Parcial()) + ", " + Util.booleanToInt(isVigilancia_PArcial()) + ", " + Util.booleanToInt(isInstructor()) + ", " + Util.booleanToInt(isEstado_ReservaParcial()) + ")";
+        
         try {
-            con.setQuery("INSERT INTO parcial_reservas"
-                    + "(Cod_Materia, Cod_Usuario, Cod_Aula, Cod_Seccion, Dia_Parcial, Hora_Parcial, Aula_Adicional_Parcial, Vigilancia_PArcial, Estado_ReservaParcial)"
-                    + " VALUES ('" + getCod_Materia() + "', '" + getCod_Usuario() + "', '"
-                    + getCod_Aula() + getCod_Seccion() + "' , STR_TO_DATE('" + df.format(getDia_Parcial()) + "', '%d/%m/%Y') , '"
-                    + "' , STR_TO_DATE('" + df.format(getHora_Parcial()) + "', '%y-%m-%d') , '"
-                    + "' , " + Util.booleanToInt(isAula_Adicional_Parcial()) + "', '" + Util.booleanToInt(isVigilancia_PArcial()) + "', '" + Util.booleanToInt(isEstado_ReservaParcial()) + ")");
-
-            valor = true;
+            id = con.insertStatement(sql);
         } catch (SQLException ex) {
-            System.out.println("ERROR:Fallo en SQL en guardar reserva parcial: " + ex.getMessage());
+            System.out.println("ERROR:Fallo en SQL en guardar recurso: " + ex.getMessage());
+            Logger.getLogger(ParcialReservas.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return valor;
+        return id;
     }
 
     public int getCod_Parcial_Reserva() {
@@ -138,11 +148,11 @@ public class ParcialReservas {
         this.Dia_Parcial = Dia_Parcial;
     }
 
-    public Date getHora_Parcial() {
+    public String getHora_Parcial() {
         return Hora_Parcial;
     }
 
-    public void setHora_Parcial(Date Hora_Parcial) {
+    public void setHora_Parcial(String Hora_Parcial) {
         this.Hora_Parcial = Hora_Parcial;
     }
 
@@ -168,5 +178,21 @@ public class ParcialReservas {
 
     public void setEstado_ReservaParcial(Boolean Estado_ReservaParcial) {
         this.Estado_ReservaParcial = Estado_ReservaParcial;
+    }
+
+    public Boolean isInstructor() {
+        return Instructor;
+    }
+
+    public void setInstructor(Boolean Instructor) {
+        this.Instructor = Instructor;
+    }
+
+    public MateriasD getMateria() {
+        return materia;
+    }
+
+    public void setMateria(MateriasD materia) {
+        this.materia = materia;
     }
 }

@@ -35,7 +35,7 @@ public class Recursos {
         this.Estado_Recurso = Estado_Recurso;
     }
 
-    public ArrayList getRecursos(Conexion con) throws SQLException {
+    public static ArrayList getRecursos(Conexion con) throws SQLException {
         ArrayList lista = new ArrayList();
         con.setRs("Select * from recursos");
         ResultSet rs = con.getRs();
