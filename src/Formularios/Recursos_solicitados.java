@@ -3,8 +3,21 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package Formularios;
+
+import Clases.Util;
+import Clases.Conexion;
+import Clases.tablas.Personas;
+import Clases.tablas.ParcialReservas;
+import Clases.tablas.Usuarios;
+import java.awt.event.ItemEvent;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -12,11 +25,32 @@ package Formularios;
  */
 public class Recursos_solicitados extends javax.swing.JInternalFrame {
 
+    private Conexion con;
+    private Usuarios usuario;
     /**
      * Creates new form Recursos_soli
      */
-    public Recursos_solicitados() {
+    public Recursos_solicitados(Usuarios usuario) throws SQLException{
         initComponents();
+        con = new Conexion();
+        this.usuario = usuario;
+        txt_usuario.setText(this.usuario.getPersona().nombreCompleto());
+        
+        for (Object o : Clases.tablas.MateriasD.getMaterias(con)){
+            cbx_MateriaR.addItem(o);
+        }
+        
+        for (Object o : Clases.tablas.Aulas.getAulas(con)){
+            cbx_AulaR.addItem(o);
+        }
+        
+        for (Object o : Clases.tablas.Secciones.getSecciones(con)){
+            cbx_SeccionR.addItem(o);
+        }
+    }
+
+    Recursos_solicitados() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     /**
@@ -30,7 +64,6 @@ public class Recursos_solicitados extends javax.swing.JInternalFrame {
 
         jPanel1 = new javax.swing.JPanel();
         lbl_Titulo_RecSolicitado = new javax.swing.JLabel();
-        cbx_UsuarioR = new javax.swing.JComboBox();
         cbx_MateriaR = new javax.swing.JComboBox();
         cbx_SeccionR = new javax.swing.JComboBox();
         cbx_AulaR = new javax.swing.JComboBox();
@@ -54,15 +87,14 @@ public class Recursos_solicitados extends javax.swing.JInternalFrame {
         txt_CantRecR = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbl_RecursosSolR = new javax.swing.JTable();
-        jTextField1 = new javax.swing.JTextField();
+        txt_DetalleReq = new javax.swing.JTextField();
+        txt_usuario = new javax.swing.JTextField();
 
         jPanel1.setBackground(new java.awt.Color(0, 102, 102));
 
         lbl_Titulo_RecSolicitado.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
         lbl_Titulo_RecSolicitado.setForeground(new java.awt.Color(255, 255, 255));
         lbl_Titulo_RecSolicitado.setText("RECURSOS SOLICITADOS");
-
-        cbx_UsuarioR.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         cbx_MateriaR.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         cbx_MateriaR.setEnabled(false);
@@ -110,6 +142,11 @@ public class Recursos_solicitados extends javax.swing.JInternalFrame {
         lbl_RecSolP.setText("Cantidad de recurso solicitado:");
 
         btn_GenerarReporteR.setText("Generar Reporte");
+        btn_GenerarReporteR.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_GenerarReporteRActionPerformed(evt);
+            }
+        });
 
         btn_MenuPrincipalR.setText("Menú Principal");
 
@@ -126,13 +163,13 @@ public class Recursos_solicitados extends javax.swing.JInternalFrame {
 
         tbl_RecursosSolR.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Fecha Solicitud", "Detalle", "Cantidad"
             }
         ));
         jScrollPane1.setViewportView(tbl_RecursosSolR);
@@ -155,9 +192,9 @@ public class Recursos_solicitados extends javax.swing.JInternalFrame {
                             .addComponent(lbl_MateriaP)
                             .addComponent(lbl_UsuarioP))
                         .addGap(93, 93, 93)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(cbx_UsuarioR, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cbx_MateriaR, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(cbx_MateriaR, 0, 158, Short.MAX_VALUE)
+                            .addComponent(txt_usuario))
                         .addGap(37, 37, 37)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lbl_SeccionP)
@@ -185,7 +222,7 @@ public class Recursos_solicitados extends javax.swing.JInternalFrame {
                                             .addGroup(jPanel1Layout.createSequentialGroup()
                                                 .addComponent(lbl_DetalleRecP)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addComponent(jTextField1)))
+                                                .addComponent(txt_DetalleReq)))
                                         .addGap(52, 52, 52)
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(btn_GenerarReporteR)
@@ -221,7 +258,7 @@ public class Recursos_solicitados extends javax.swing.JInternalFrame {
                     .addComponent(cbx_SeccionR, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lbl_UsuarioP)
                     .addComponent(lbl_SeccionP)
-                    .addComponent(cbx_UsuarioR, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txt_usuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cbx_MateriaR, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -245,8 +282,8 @@ public class Recursos_solicitados extends javax.swing.JInternalFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbl_DetalleRecP)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(txt_DetalleReq, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
                 .addComponent(btn_GenerarReporteR)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -272,6 +309,12 @@ public class Recursos_solicitados extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btn_GenerarReporteRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_GenerarReporteRActionPerformed
+        DefaultTableModel model = (DefaultTableModel) tbl_RecursosSolR.getModel();
+        model.addRow(new Object[]{dpk_FechaRec.getDate() , txt_DetalleReq.getText() + " " + txt_CantRecR.getText()});
+
+    }//GEN-LAST:event_btn_GenerarReporteRActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_CancelarR;
@@ -282,12 +325,10 @@ public class Recursos_solicitados extends javax.swing.JInternalFrame {
     private javax.swing.JComboBox cbx_MateriaR;
     private javax.swing.JComboBox cbx_RecursoR;
     private javax.swing.JComboBox cbx_SeccionR;
-    private javax.swing.JComboBox cbx_UsuarioR;
     private org.jdesktop.swingx.JXDatePicker dpk_FechaRec;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator2;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JLabel lbl_AulaP;
     private javax.swing.JLabel lbl_AulaP1;
     private javax.swing.JLabel lbl_AulaP5;
@@ -301,5 +342,7 @@ public class Recursos_solicitados extends javax.swing.JInternalFrame {
     private javax.swing.JLabel lbl_UsuarioP;
     private javax.swing.JTable tbl_RecursosSolR;
     private javax.swing.JTextField txt_CantRecR;
+    private javax.swing.JTextField txt_DetalleReq;
+    private javax.swing.JTextField txt_usuario;
     // End of variables declaration//GEN-END:variables
 }
