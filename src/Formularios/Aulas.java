@@ -7,6 +7,13 @@
 package Formularios;
 import Clases.tablas.*;
 import Clases.*;
+import java.awt.event.ItemEvent;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 /**
  *
  * @author Nataly
@@ -14,11 +21,38 @@ import Clases.*;
 public class Aulas extends javax.swing.JInternalFrame {
 
     private Conexion con;
-    /**
-     * Creates new form Aulas
-     */
-    public Aulas() {
+    
+    public Aulas() throws SQLException {
         initComponents();
+        con = new Conexion();
+        obtenerAulas();
+    }
+    
+     private void obtenerAulas() {
+        //Eliminamos todos los elementos de los combobox
+        ((DefaultComboBoxModel) cbx_Aulas.getModel()).removeAllElements();
+
+        ArrayList lista = null;
+        try {
+            lista = Clases.tablas.Aulas.getAulas(con);
+            cbx_Aulas.addItem(new Clases.tablas.Aulas("-Seleccione-"));
+        } catch (SQLException ex) {
+            Logger.getLogger(Aulas.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        for (Object o : lista) {
+            Clases.tablas.Aulas item = (Clases.tablas.Aulas) o;
+            cbx_Aulas.addItem(item);
+            if (item.isEstado_Ubicacion()) {
+                cbx_Aulas.addItem(o);
+            }
+        }
+    }
+
+    private void controlesAulas(boolean estado) {
+        this.btn_Guardar_Unid_aula.setEnabled(estado);
+        this.btn_Actualizar_Unid_aula.setEnabled(!estado);
+        this.btn_Eliminar_Unid_aula.setEnabled(!estado);
     }
 
     /**
@@ -41,7 +75,7 @@ public class Aulas extends javax.swing.JInternalFrame {
         chkb_estado_aulas = new javax.swing.JCheckBox();
         jSeparator1 = new javax.swing.JSeparator();
         btn_nuevo_aula = new javax.swing.JButton();
-        cbx_ubicacion = new javax.swing.JComboBox();
+        cbx_Aulas = new javax.swing.JComboBox();
 
         jPanel1.setBackground(new java.awt.Color(0, 102, 102));
 
@@ -88,9 +122,9 @@ public class Aulas extends javax.swing.JInternalFrame {
             }
         });
 
-        cbx_ubicacion.addItemListener(new java.awt.event.ItemListener() {
+        cbx_Aulas.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                cbx_ubicacionItemStateChanged(evt);
+                cbx_AulasItemStateChanged(evt);
             }
         });
 
@@ -110,7 +144,7 @@ public class Aulas extends javax.swing.JInternalFrame {
                     .addComponent(lbl_unidad_academica, javax.swing.GroupLayout.PREFERRED_SIZE, 368, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                            .addComponent(cbx_ubicacion, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(cbx_Aulas, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                             .addComponent(btn_Eliminar_Unid_aula))
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
@@ -135,7 +169,7 @@ public class Aulas extends javax.swing.JInternalFrame {
                 .addGap(31, 31, 31)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_Eliminar_Unid_aula)
-                    .addComponent(cbx_ubicacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cbx_Aulas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(21, 21, 21)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -180,19 +214,19 @@ public class Aulas extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_Guardar_Unid_aulaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Guardar_Unid_aulaActionPerformed
-        Aulas aulas = new Aulas();
+        Clases.tablas.Aulas aulas = new Clases.tablas.Aulas();
         aulas.setDescripcion_Ubicacion(this.Txt_descripcion.getText());
         aulas.setEstado_Ubicacion(this.chkb_estado_aulas.isSelected());
-        Integer id = aulas.guardar(con); //guarda el registro y retorna el id generado
+        Integer id = aulas.guardar_aulas(con); //guarda el registro y retorna el id generado
 
         if (id != null) {
             aulas.setCod_Aulas(id.intValue());
-            cbx_ubicacion.addItem(aulas);
-            if (aulas.isEstado_Aulas()) {
-                cbx_Cod_Aulas.addItem(aulas);
+            cbx_Aulas.addItem(aulas);
+            if (aulas.isEstado_Ubicacion()) {
+                cbx_Aulas.addItem(aulas);
             }
 
-            this.btn_nuevo_aulasActionPerformed(null);
+            this.btn_nuevo_aulaActionPerformed(null);
             JOptionPane.showMessageDialog(null, "El Registro se Guardo con Exito");
         } else {
             JOptionPane.showMessageDialog(null, "Error , Fallo al Guardar el Registro");
@@ -200,13 +234,14 @@ public class Aulas extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btn_Guardar_Unid_aulaActionPerformed
 
     private void btn_Eliminar_Unid_aulaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Eliminar_Unid_aulaActionPerformed
-        Aulas aulas = (Aulas) cbx_ubicacion.getSelectedItem();
-        if (aulas != null && aulas.getDescripcion_Ubicacion() != null) {
+        Clases.tablas.Aulas aulas = (Clases.tablas.Aulas) cbx_Aulas.getSelectedItem();
+        if (aulas.getDescripcion_Ubicacion().equals("-Seleccione-"))
+        {
             int result = JOptionPane.showConfirmDialog(this, "Desea Eliminar el Registro", "Salir", JOptionPane.YES_NO_OPTION);
             if (result == JOptionPane.YES_NO_OPTION) {
-                if (aulas.eliminar(con)) {
+                if (aulas.eliminar_aulas(con)) {
                     JOptionPane.showMessageDialog(null, "El Registro se Elimino con Exito");
-                    this.btn_nuevo_aulasPerformed(null);
+                    this.btn_nuevo_aulaActionPerformed(null);
                 } else {
                     JOptionPane.showMessageDialog(null, "Error , Fallo al Eliminar el Registro");
                 }
@@ -216,13 +251,13 @@ public class Aulas extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btn_Eliminar_Unid_aulaActionPerformed
 
     private void btn_Actualizar_Unid_aulaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Actualizar_Unid_aulaActionPerformed
-        Aulas aulas = (Aulas) cbx_ubicacion.getSelectedItem();
-        if (aulas != null && aulas.getCod_Aulas() =! null) {
+        Clases.tablas.Aulas aulas = (Clases.tablas.Aulas) cbx_Aulas.getSelectedItem();
+        if (!aulas.getDescripcion_Ubicacion().equals("-Seleccione-")) {
             aulas.setDescripcion_Ubicacion(this.Txt_descripcion.getText());
             aulas.setEstado_Ubicacion(this.chkb_estado_aulas.isSelected());
             if (aulas.actualizar_aulas(con)) {
                 JOptionPane.showMessageDialog(null, "El Registro se actualizo con Exito");
-                this.btn_nuevo_aulasActionPerformed(null);
+                this.btn_nuevo_aulaActionPerformed(null);
             } else {
                 JOptionPane.showMessageDialog(null, "Error , Fallo al actualizar el Registro");
             }
@@ -233,21 +268,21 @@ public class Aulas extends javax.swing.JInternalFrame {
     private void btn_nuevo_aulaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_nuevo_aulaActionPerformed
         this.Txt_descripcion.setText("");
         this.chkb_estado_aulas.setSelected(false);
-        this.cbx_ubicacion.setSelectedIndex(0);
+        this.cbx_Aulas.setSelectedIndex(0);
     }//GEN-LAST:event_btn_nuevo_aulaActionPerformed
 
-    private void cbx_ubicacionItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbx_ubicacionItemStateChanged
+    private void cbx_AulasItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbx_AulasItemStateChanged
         if (evt.getStateChange() == ItemEvent.SELECTED) {
-            Aulas item = (Aulas) evt.getItem();
-            if (item.getNombre_Unid_Academica() != null) {
+            Clases.tablas.Aulas item = (Clases.tablas.Aulas) evt.getItem();
+            if (!item.getDescripcion_Ubicacion().equals("-Seleccione-")) {
                 controlesAulas(false);
                 this.Txt_descripcion.setText(item.getDescripcion_Ubicacion());
-                this.chkb_estado_aulas.setSelected(item.isEstado_Aulas());
+                this.chkb_estado_aulas.setSelected(item.isEstado_Ubicacion());
             } else {
                 controlesAulas(true);
             }
         }
-    }//GEN-LAST:event_cbx_ubicacionItemStateChanged
+    }//GEN-LAST:event_cbx_AulasItemStateChanged
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -256,7 +291,7 @@ public class Aulas extends javax.swing.JInternalFrame {
     private javax.swing.JButton btn_Eliminar_Unid_aula;
     private javax.swing.JButton btn_Guardar_Unid_aula;
     private javax.swing.JButton btn_nuevo_aula;
-    private javax.swing.JComboBox cbx_ubicacion;
+    private javax.swing.JComboBox cbx_Aulas;
     private javax.swing.JCheckBox chkb_estado_aulas;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JSeparator jSeparator1;

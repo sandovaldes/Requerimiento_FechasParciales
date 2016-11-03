@@ -66,7 +66,7 @@
                       <Component id="lbl_unidad_academica" alignment="1" min="-2" pref="368" max="-2" attributes="0"/>
                       <Group type="103" alignment="1" groupAlignment="0" max="-2" attributes="0">
                           <Group type="102" alignment="1" attributes="0">
-                              <Component id="cbx_ubicacion" max="32767" attributes="0"/>
+                              <Component id="cbx_Aulas" max="32767" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="btn_Eliminar_Unid_aula" min="-2" max="-2" attributes="0"/>
                           </Group>
@@ -101,7 +101,7 @@
                   <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="btn_Eliminar_Unid_aula" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="cbx_ubicacion" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="cbx_Aulas" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
                   <Component id="jSeparator1" min="-2" pref="10" max="-2" attributes="0"/>
@@ -203,14 +203,14 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_nuevo_aulaActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JComboBox" name="cbx_ubicacion">
+        <Component class="javax.swing.JComboBox" name="cbx_Aulas">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
               <StringArray count="0"/>
             </Property>
           </Properties>
           <Events>
-            <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="cbx_ubicacionItemStateChanged"/>
+            <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="cbx_AulasItemStateChanged"/>
           </Events>
         </Component>
       </SubComponents>

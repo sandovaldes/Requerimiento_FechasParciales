@@ -3,21 +3,26 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package Formularios;
+
 import Clases.*;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Nataly
  */
 public class Personas extends javax.swing.JInternalFrame {
-Conexion con;
-Personas personas;
+
+    Conexion con;
+
     /**
      * Creates new form Personas
      */
-    public Personas() {
+    public Personas() throws SQLException {
         initComponents();
+        con = new Conexion();
     }
 
     /**
@@ -52,7 +57,6 @@ Personas personas;
         btn_Limpiar = new javax.swing.JButton();
         lbl_impresion = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        txt_estado_persona = new javax.swing.JTextField();
         btn_eliminar = new javax.swing.JButton();
         cbx_genero = new javax.swing.JComboBox();
         cbx_estado_civil = new javax.swing.JComboBox();
@@ -60,6 +64,7 @@ Personas personas;
         btn_actualizar = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTableResultado1 = new javax.swing.JTable();
+        chbx_Estado_Persona = new javax.swing.JCheckBox();
 
         jPanel1.setBackground(new java.awt.Color(0, 102, 102));
 
@@ -106,18 +111,6 @@ Personas personas;
         jLabel13.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel13.setForeground(new java.awt.Color(255, 255, 255));
         jLabel13.setText("Direccion");
-
-        txt_seg_apellido.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txt_seg_apellidoActionPerformed(evt);
-            }
-        });
-
-        txt_direccion.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txt_direccionActionPerformed(evt);
-            }
-        });
 
         btn_Agregar.setText("AGREGAR");
         btn_Agregar.addActionListener(new java.awt.event.ActionListener() {
@@ -189,7 +182,7 @@ Personas personas;
                                 .addGap(75, 75, 75)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(txt_direccion, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txt_estado_persona, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(chbx_Estado_Persona)))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel4)
@@ -295,14 +288,11 @@ Personas personas;
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txt_direccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(13, 13, 13)
-                        .addComponent(jLabel2))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(txt_estado_persona, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
+                .addGap(10, 10, 10)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(chbx_Estado_Persona))
+                .addGap(23, 23, 23)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lbl_impresion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -331,33 +321,26 @@ Personas personas;
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txt_seg_apellidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_seg_apellidoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txt_seg_apellidoActionPerformed
-
-    private void txt_direccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_direccionActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txt_direccionActionPerformed
-
     private void btn_AgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_AgregarActionPerformed
         // TODO add your handling code here:
         //  personas.setCod_personas(Integer.parseInt(this.txt_cod_personas.getText()));
-        personas.setDUI(Integer.parseInt(this.txt_dui.getText()));
-        personas.setPrim_nombre(this.txt_prim_nombre.getText());
-        personas.setSeg_nombre(this.txt_seg_nombre.getText());
-        personas.setPrim_apellido(this.txt_prim_apellido.getText());
-        personas.setSeg_apellido(this.txt_seg_apellido.getText());
-        personas.setGenero(this.txt_genero.getText());
-        personas.setEstado_civil(this.txt_estado_civil.getText());
-        personas.setFecha_nacimiento(this.txt_fecha_nacimiento.getText());
+        Clases.tablas.Personas personas = new Clases.tablas.Personas();
+        personas.setDUI(this.txt_dui.getText());
+        personas.setPrim_Nombre(this.txt_prim_nombre.getText());
+        personas.setSeg_Nombre(this.txt_seg_nombre.getText());
+        personas.setPrim_Apellido(this.txt_prim_apellido.getText());
+        personas.setSeg_Apellido(this.txt_seg_apellido.getText());
+        personas.setGenero(this.cbx_genero.getSelectedItem().toString());
+        personas.setEstado_Civil(this.cbx_estado_civil.getSelectedItem().toString());
+        personas.setFecha_Nacimiento(this.dpk_FechaNacimiento.getDate());
         personas.setTelefono(this.txt_telefono.getText());
         personas.setDireccion(this.txt_direccion.getText());
-        personas.setEstado_persona(this.txt_estado_persona.getText());
+        personas.setEstado_Persona(this.chbx_Estado_Persona.isSelected());
 
-        if(personas.guardar_personas(personas)==0){
-            JOptionPane.showMessageDialog(null,"Registro se ha guardado con exito");
-        }else{
-            JOptionPane.showMessageDialog(null,"Fallo al guardar el registo");
+        if (personas.guardar_personas(con) == 0) {
+            JOptionPane.showMessageDialog(null, "Registro se ha guardado con exito");
+        } else {
+            JOptionPane.showMessageDialog(null, "Fallo al guardar el registo");
         }
 
     }//GEN-LAST:event_btn_AgregarActionPerformed
@@ -412,10 +395,9 @@ Personas personas;
         docentes.setEstado_Civil(this.cbx_estado_civil.getSelectedItem().toString().charAt(0));
         docentes.setFecha_Nacimiento(this.dpk_FechaNacimiento.getDate());
         docentes.setTelefono_Particular(this.txt_telefono.getText());
-       ;
+        ;
         docentes.setDireccion(this.txt_direccion.getText());
-      
-        
+
         int result;
         result = JOptionPane.showConfirmDialog(this, "Desea Actualizar el Registro", "Salir", JOptionPane.YES_NO_OPTION);
         if (result == JOptionPane.YES_NO_OPTION) {
@@ -445,6 +427,7 @@ Personas personas;
     private javax.swing.JButton btn_eliminar;
     private javax.swing.JComboBox cbx_estado_civil;
     private javax.swing.JComboBox cbx_genero;
+    private javax.swing.JCheckBox chbx_Estado_Persona;
     private org.jdesktop.swingx.JXDatePicker dpk_FechaNacimiento;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -464,7 +447,6 @@ Personas personas;
     private javax.swing.JLabel lbl_impresion;
     private javax.swing.JTextField txt_direccion;
     private javax.swing.JTextField txt_dui;
-    private javax.swing.JTextField txt_estado_persona;
     private javax.swing.JTextField txt_prim_apellido;
     private javax.swing.JTextField txt_prim_nombre;
     private javax.swing.JTextField txt_seg_apellido;

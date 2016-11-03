@@ -18,13 +18,17 @@ import java.util.Date;
  */
 public class Aulas {
 
-    public Aulas() {
-    }
-
     private int Cod_Aulas;
     private int Cod_Ubicacion;
     private String Descripcion_Ubicacion;
     private Boolean Estado_Ubicacion;
+
+    public Aulas() {
+    }
+
+    public Aulas(String Descripcion_Ubicacion) {
+        this.Descripcion_Ubicacion = Descripcion_Ubicacion;
+    }
 
     public Aulas(int Cod_Aulas, int Cod_Ubicacion, String Descripcion_Ubicacion, Boolean Estado_Ubicacion) {
         this.Cod_Aulas = Cod_Aulas;
@@ -33,7 +37,7 @@ public class Aulas {
         this.Estado_Ubicacion = Estado_Ubicacion;
     }
 
-    public ArrayList getAulas(Conexion con) throws SQLException {
+    public static ArrayList getAulas(Conexion con) throws SQLException {
         ArrayList lista = new ArrayList();
         con.setRs("Select * from aulas");
         ResultSet rs = con.getRs();
@@ -127,5 +131,10 @@ public class Aulas {
 
     public void setEstado_Ubicacion(Boolean Estado_Ubicacion) {
         this.Estado_Ubicacion = Estado_Ubicacion;
+    }
+
+    @Override
+    public String toString() {
+        return Descripcion_Ubicacion;
     }
 }

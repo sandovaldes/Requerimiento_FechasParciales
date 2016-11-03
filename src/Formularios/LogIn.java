@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package Formularios;
 
 import Clases.Conexion;
@@ -20,6 +19,7 @@ import javax.swing.JOptionPane;
 public class LogIn extends javax.swing.JFrame {
 
     private Conexion con;
+
     /**
      * Creates new form LogIn
      */
@@ -139,24 +139,22 @@ public class LogIn extends javax.swing.JFrame {
         String usuario = this.txt_usuario.getText();
         String contrasenia = new String(this.txt_contrasenia.getPassword());
 
-      //  try {
-            //boolean resultado = Usuarios.login(usuario, contrasenia, con);
-boolean resultado = true;
+        try {
+            boolean resultado = Usuarios.login(usuario, contrasenia, con);
             if (resultado) {
                 JOptionPane.showMessageDialog(null, "Bienvenido " + usuario);
                 Main main = new Main(usuario);
                 main.setVisible(true);
-                
+
                 //Cerrar esta ventana
                 this.setVisible(false);
                 this.dispose();
             } else {
                 JOptionPane.showMessageDialog(null, "Contraseña o usuario incorrectos.", "Advertencia", JOptionPane.WARNING_MESSAGE, null);
             }
-
-   //     } catch (SQLException ex) {
-       //     Logger.getLogger(LogIn.class.getName()).log(Level.SEVERE, null, ex);
-        //}
+        } catch (SQLException ex) {
+            Logger.getLogger(LogIn.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btn_IngresarLogInActionPerformed
 
     /**

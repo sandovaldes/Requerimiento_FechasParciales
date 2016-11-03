@@ -18,13 +18,16 @@ import java.util.Date;
  */
 public class Roles {
 
-   public Roles(){
-   }
-
-
     private Character Cod_Rol;
     private String Descripcion_Rol;
     private Boolean Estado_Rol;
+
+    public Roles() {
+    }
+
+    public Roles(String Descripcion_Rol) {
+        this.Descripcion_Rol = Descripcion_Rol;
+    }
 
     public Roles(Character Cod_Rol, String Descripcion_Rol, Boolean Estado_Rol) {
         this.Cod_Rol = Cod_Rol;
@@ -32,9 +35,7 @@ public class Roles {
         this.Estado_Rol = Estado_Rol;
     }
 
-
-
-    public ArrayList getRoles(Conexion con) throws SQLException {
+    public static ArrayList getRoles(Conexion con) throws SQLException {
         ArrayList lista = new ArrayList();
         con.setRs("Select * from roles");
         ResultSet rs = con.getRs();
@@ -45,14 +46,14 @@ public class Roles {
                     rs.getString("Descripcion_Rol"),
                     rs.getBoolean("Estado_Rol")
             );
-            
+
             lista.add(rol);
         }
 
         return lista;
     }
 
- public static Roles getRol(Conexion con, char id) throws SQLException {
+    public static Roles getRol(Conexion con, char id) throws SQLException {
         Roles resultado = null;
 
         con.setRs("SELECT * FROM roles WHERE Cod_Rol = '" + id + "'");
@@ -114,7 +115,6 @@ public class Roles {
         return resultado;
     }
 
-
     public Character getCod_Rol() {
         return Cod_Rol;
     }
@@ -138,10 +138,9 @@ public class Roles {
     public void setEstado_Rol(Boolean Estado_Rol) {
         this.Estado_Rol = Estado_Rol;
     }
-    
+
 //    @Override
 //    public String toString() {
 //        return nombreCompleto();
 //    }
-    
 }

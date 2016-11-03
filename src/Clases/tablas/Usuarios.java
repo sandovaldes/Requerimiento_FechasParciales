@@ -21,21 +21,21 @@ import java.util.logging.Logger;
  */
 public class Usuarios {
 
+    private int Cod_Usuario;
+    private Character Cod_Rol;
+    private Integer Cod_Personas;
+    private String Nombre_Usuario;
+    private String Contraenia_Usuario;
+    private Boolean Estado_Usuario;
+    private Personas persona;
+    private Roles rol;
+    
     public Usuarios() {
     }
 
     public Usuarios(String Nombre_Usuario) {
         this.Nombre_Usuario = Nombre_Usuario;
     }
-
-    private int Cod_Usuario;
-    private Personas persona;
-    private Character Cod_Rol;
-    private Integer Cod_Docente;
-    private String Nombre_Usuario;
-    private String Contraenia_Usuario;
-    private Boolean Estado_Usuario;
-    private Roles rol;
 
     public Usuarios(int Cod_Usuario, Roles rol, Personas persona, Character Cod_Rol, String Nombre_Usuario, Boolean Estado_Usuario) {
         this.Cod_Usuario = Cod_Usuario;
@@ -96,7 +96,7 @@ public class Usuarios {
         boolean resultado = true;
         CallableStatement stmt = null;
         try {
-            stmt = con.getConexion().prepareCall("{call Login_usuario_disp(?,?,?)}");
+            stmt = con.getConexion().prepareCall("{call Login_usuario(?,?,?)}");
             stmt.setString(1, usuario);
             stmt.setString(2, contrasenia);
             stmt.registerOutParameter(3, Types.TINYINT);
@@ -121,7 +121,7 @@ public class Usuarios {
         CallableStatement stmt = null;
         try {
             stmt = con.getConexion().prepareCall("{call Nuevo_usuario_disp(?,?,?,?,?)}");
-            stmt.setInt(1, getCod_Docente());
+            stmt.setInt(1, getCod_Personas());
             stmt.setString(2, String.valueOf(getCod_Rol()));
             stmt.setString(3, getNombre_Usuario());
             stmt.setString(4, getContraenia_Usuario());
@@ -228,12 +228,12 @@ public class Usuarios {
         this.Contraenia_Usuario = Contraenia_Usuario;
     }
 
-    public Integer getCod_Docente() {
-        return Cod_Docente;
+    public Integer getCod_Personas() {
+        return Cod_Personas;
     }
 
-    public void setCod_Docente(Integer Cod_Docente) {
-        this.Cod_Docente = Cod_Docente;
+    public void setCod_Personas(Integer Cod_Personas) {
+        this.Cod_Personas = Cod_Personas;
     }
 
     @Override

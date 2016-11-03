@@ -37,6 +37,13 @@ public class Personas {
     public Personas() {
     }
 
+    public Personas(String Prim_Nombre, String Seg_Nombre, String Prim_Apellido, String Seg_Apellido) {
+        this.Prim_Nombre = Prim_Nombre;
+        this.Seg_Nombre = Seg_Nombre;
+        this.Prim_Apellido = Prim_Apellido;
+        this.Seg_Apellido = Seg_Apellido;
+    }
+
     public Personas(int Cod_Personas, String DUI, String Prim_Nombre, String Seg_Nombre, String Prim_Apellido, String Seg_Apellido, String Genero, String Estado_Civil, Date Fecha_Nacimiento, String Telefono, String Direccion, Boolean Estado_Persona) {
         this.Cod_Personas = Cod_Personas;
         this.DUI = DUI;
@@ -52,7 +59,7 @@ public class Personas {
         this.Estado_Persona = Estado_Persona;
     }
 
-    public ArrayList getPersonas(Conexion con) throws SQLException {
+    public static ArrayList getPersonas(Conexion con) throws SQLException {
         ArrayList lista = new ArrayList();
         con.setRs("Select * from personas");
         ResultSet rs = con.getRs();

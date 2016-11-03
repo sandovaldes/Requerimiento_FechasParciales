@@ -3,8 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package Formularios;
+
+import Clases.Conexion;
+import java.awt.event.ItemEvent;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -12,11 +16,13 @@ package Formularios;
  */
 public class Recursos extends javax.swing.JInternalFrame {
 
+    private Conexion con;
     /**
      * Creates new form Recursos
      */
-    public Recursos() {
+    public Recursos() throws SQLException {
         initComponents();
+        con = new Conexion();
     }
 
     /**
@@ -35,23 +41,23 @@ public class Recursos extends javax.swing.JInternalFrame {
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         txt_descripcion = new javax.swing.JTextField();
-        txt_estado_recurso = new javax.swing.JTextField();
         btn_Agregar_recurso = new javax.swing.JButton();
         btn_limpiar_recurso = new javax.swing.JButton();
         cbx_Cod_Facultad = new javax.swing.JComboBox();
         btn_Actualizar_Facultad1 = new javax.swing.JButton();
+        chbx_estado_recurso = new javax.swing.JCheckBox();
         jLabel1 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         txt_tipo_recurso = new javax.swing.JTextField();
-        txt_estado_tipo_recurso = new javax.swing.JTextField();
         btn_agregar_tipo = new javax.swing.JButton();
         btn_limpiar_tipo = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
         btn_Actualizar_Facultad = new javax.swing.JButton();
         cbx_Cod_Facultad1 = new javax.swing.JComboBox();
+        chbx_estado_tipo_recurso = new javax.swing.JCheckBox();
         cbx_materias = new javax.swing.JComboBox();
         btn_EliminarMaterias = new javax.swing.JButton();
         jSeparator3 = new javax.swing.JSeparator();
@@ -115,14 +121,14 @@ public class Recursos extends javax.swing.JInternalFrame {
                                 .addComponent(btn_limpiar_recurso)))
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txt_descripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txt_estado_recurso, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGap(18, 18, 18)
                                 .addComponent(btn_Actualizar_Facultad1)
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(chbx_estado_recurso)
+                                    .addComponent(txt_descripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel4)
@@ -147,11 +153,11 @@ public class Recursos extends javax.swing.JInternalFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(txt_descripcion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(21, 21, 21)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(txt_estado_recurso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(52, 52, 52)
+                .addGap(20, 20, 20)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(chbx_estado_recurso)
+                    .addComponent(jLabel6))
+                .addGap(50, 50, 50)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_limpiar_recurso)
                     .addComponent(btn_Agregar_recurso)
@@ -172,7 +178,7 @@ public class Recursos extends javax.swing.JInternalFrame {
 
         jLabel7.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel7.setText("Tipo de Recurso");
+        jLabel7.setText("Tipo de Recurso Descripción");
 
         jLabel8.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(255, 255, 255));
@@ -219,13 +225,13 @@ public class Recursos extends javax.swing.JInternalFrame {
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel7)
-                                    .addComponent(jLabel8)
-                                    .addComponent(jLabel9))
-                                .addGap(27, 27, 27)
+                                    .addComponent(jLabel9)
+                                    .addComponent(jLabel8))
+                                .addGap(108, 108, 108)
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(txt_tipo_recurso, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(cbx_Cod_Facultad1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txt_estado_tipo_recurso, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(chbx_estado_tipo_recurso)))
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addComponent(btn_agregar_tipo)
                                 .addGap(18, 18, 18)
@@ -244,16 +250,14 @@ public class Recursos extends javax.swing.JInternalFrame {
                     .addComponent(jLabel9)
                     .addComponent(cbx_Cod_Facultad1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(25, 25, 25)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txt_tipo_recurso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel7))
-                        .addGap(45, 45, 45))
-                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel8)
-                        .addComponent(txt_estado_tipo_recurso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(43, 43, 43)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txt_tipo_recurso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel7))
+                .addGap(30, 30, 30)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel8)
+                    .addComponent(chbx_estado_tipo_recurso))
+                .addGap(37, 37, 37)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_agregar_tipo)
                     .addComponent(btn_limpiar_tipo)
@@ -328,19 +332,19 @@ public class Recursos extends javax.swing.JInternalFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(0, 4, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_Agregar_recursoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Agregar_recursoActionPerformed
-
+        Clases.tablas.Recursos recursos = new Clases.tablas.Recursos();
         recursos.setCod_tipo_recurso(Integer.parseInt(this.txt_cod_tipo_recurso.getText()));
         recursos.setDescripcion_recurso(this.txt_descripcion.getText());
-        recursos.setEstado_recurso(this.txt_estado_tipo_recurso.getText());
+        recursos.setEstado_Recurso(this.chbx_estado_recurso.isSelected());
 
-        if (recursos.guardar_recursos(recursos) == 0) {
+        if (recursos.guardar_recursos(con) == 0) {
             JOptionPane.showMessageDialog(null, "El Registro se Guardo con Exito");
         } else {
             JOptionPane.showMessageDialog(null, "Error , Fallo al Guardar el Registro");
@@ -350,8 +354,7 @@ public class Recursos extends javax.swing.JInternalFrame {
 
     private void btn_limpiar_recursoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_limpiar_recursoActionPerformed
         this.txt_descripcion.setText("");
-        this.txt_estado_recurso.setText("");
-
+        this.chbx_estado_recurso.setSelected(false);
     }//GEN-LAST:event_btn_limpiar_recursoActionPerformed
 
     private void btn_agregar_tipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregar_tipoActionPerformed
@@ -360,7 +363,7 @@ public class Recursos extends javax.swing.JInternalFrame {
         tipo_recursos.setTipo_recurso(this.txt_tipo_recurso.getText());
         tipo_recursos.setEstado_tipo_recurso(this.txt_estado_tipo_recurso.getText());
 
-        if (tipo_recursos.guardar_tipo_recursos(tipo_recursos) == 0) {
+        if (tipo_recursos.guardar_tipo_recursos(con) == 0) {
             JOptionPane.showMessageDialog(null, "El Registro se Guardo con Exito");
         } else {
             JOptionPane.showMessageDialog(null, "Error , Fallo al Guardar el Registro");
@@ -371,7 +374,7 @@ public class Recursos extends javax.swing.JInternalFrame {
     private void btn_limpiar_tipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_limpiar_tipoActionPerformed
         this.txt_Cod_tipo_recurso.setText("");
         this.txt_tipo_recurso.setText("");
-        this.txt_estado_tipo_recurso.setText("");
+        this.chbx_estado_tipo_recurso.setSelected(false);
 
     }//GEN-LAST:event_btn_limpiar_tipoActionPerformed
 
@@ -386,9 +389,9 @@ public class Recursos extends javax.swing.JInternalFrame {
                 this.chkb_estado_materia.setSelected(item.isEstado_Materia());
                 this.txt_NombreMateria.setText(item.getNombre_Materia());
                 this.txt_UV.setText(String.valueOf(item.getUV_Materia()));
+            } else {
+                controlesMaterias(true);
             }
-            else
-            controlesMaterias(true);
         }
     }//GEN-LAST:event_cbx_materiasItemStateChanged
 
@@ -399,8 +402,6 @@ public class Recursos extends javax.swing.JInternalFrame {
             if (result == JOptionPane.YES_NO_OPTION) {
                 if (materia.eliminar(con)) {
                     JOptionPane.showMessageDialog(null, "El Registro se Elimino con Exito");
-                    this.btn_Nuevo_MateriaActionPerformed(null);
-                    obtenerMaterias();
                 } else {
                     JOptionPane.showMessageDialog(null, "Error , Fallo al Eliminar el Registro");
                 }
@@ -417,7 +418,6 @@ public class Recursos extends javax.swing.JInternalFrame {
             facultad.setCod_Unid_Academica(unidad.getCod_Unid_Academica());
             if (facultad.actualizar(con)) {
                 JOptionPane.showMessageDialog(null, "El Registro se actualizo con Exito");
-                this.btn_Nuevo_FacultadActionPerformed(null);
             } else {
                 JOptionPane.showMessageDialog(null, "Error , Fallo al actualizar el Registro");
             }
@@ -441,6 +441,8 @@ public class Recursos extends javax.swing.JInternalFrame {
     private javax.swing.JComboBox cbx_Cod_Facultad;
     private javax.swing.JComboBox cbx_Cod_Facultad1;
     private javax.swing.JComboBox cbx_materias;
+    private javax.swing.JCheckBox chbx_estado_recurso;
+    private javax.swing.JCheckBox chbx_estado_tipo_recurso;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -455,8 +457,6 @@ public class Recursos extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JTextField txt_descripcion;
-    private javax.swing.JTextField txt_estado_recurso;
-    private javax.swing.JTextField txt_estado_tipo_recurso;
     private javax.swing.JTextField txt_tipo_recurso;
     // End of variables declaration//GEN-END:variables
 }

@@ -3,8 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package Formularios;
+
 import Clases.Conexion;
 import Clases.Util;
 import Clases.tablas.MateriasD;
@@ -17,12 +17,14 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
+
 /**
  *
  * @author Nataly
  */
 public class Materias extends javax.swing.JInternalFrame {
-private Conexion con;
+
+    private Conexion con;
 
     public Materias() throws SQLException {
         initComponents();
@@ -30,14 +32,14 @@ private Conexion con;
         this.obtenerMaterias();
         this.obtenerFacultades();
         this.obtenerSecciones();
-        
+
     }
-    
-     private void obtenerMaterias() {
+
+    private void obtenerMaterias() {
         ((DefaultComboBoxModel) cbx_materias2.getModel()).removeAllElements();
         ArrayList lista = null;
         try {
-         lista=MateriasD.getMaterias(con);
+            lista = MateriasD.getMaterias(con);
             cbx_materias2.addItem(new MateriasD());
         } catch (SQLException ex) {
             Logger.getLogger(Materias.class.getName()).log(Level.SEVERE, null, ex);
@@ -47,16 +49,16 @@ private Conexion con;
             cbx_materias2.addItem(o);
         }
     }
-     
-      private void controlesMaterias(boolean estado) {
+
+    private void controlesMaterias(boolean estado) {
         this.btn_GuardarMateria2.setEnabled(estado);
         this.btn_Actualizar_Materias2.setEnabled(!estado);
         this.btn_EliminarMaterias2.setEnabled(!estado);
     }
-    
-      private void obtenerFacultades() {
+
+    private void obtenerFacultades() {
         //Eliminamos todos los elementos de los combobox
-       
+
         ((DefaultComboBoxModel) cbx_facultades2.getModel()).removeAllElements();
         ((DefaultComboBoxModel) cbx_Cod_Facultad2.getModel()).removeAllElements();
 
@@ -75,22 +77,22 @@ private Conexion con;
                 cbx_Cod_Facultad2.addItem(o);
             }
         }
-        
+
     }
-      
-       private void controlesFacultades(boolean estado) {
+
+    private void controlesFacultades(boolean estado) {
         this.btn_Guardar_Facultad2.setEnabled(estado);
         this.btn_Actualizar_Facultad2.setEnabled(!estado);
         this.btn_Eliminar_Facultad2.setEnabled(!estado);
     }
-    
-     private void obtenerSecciones() {
-       ((DefaultComboBoxModel) cbx_Secciones.getModel()).removeAllElements();
+
+    private void obtenerSecciones() {
+        ((DefaultComboBoxModel) cbx_Secciones.getModel()).removeAllElements();
         ArrayList lista = null;
         try {
             lista = Secciones.getSecciones(con);
             cbx_Secciones.addItem(new Secciones());
-           
+
         } catch (SQLException ex) {
             Logger.getLogger(Materias.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -99,14 +101,13 @@ private Conexion con;
             cbx_Secciones.addItem(o);
         }
     }
-     
-     private void controlesSecciones(boolean estado) {
-         this.btn_Guardar_Secciones.setEnabled(estado);
+
+    private void controlesSecciones(boolean estado) {
+        this.btn_Guardar_Secciones.setEnabled(estado);
         this.btn_Actualizar_Secciones.setEnabled(!estado);
         this.btn_Eliminar_Secciones.setEnabled(!estado);
     }
-       
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -604,13 +605,13 @@ private Conexion con;
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    
+
     private void txt_UV2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_UV2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txt_UV2ActionPerformed
 
     private void txt_UV2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_UV2KeyTyped
-       
+
         char c = evt.getKeyChar();
         if (c < '0' || c > '9') {
             evt.consume();
@@ -633,7 +634,7 @@ private Conexion con;
         materia.setUV(Integer.valueOf(this.txt_UV2.getText()));
         materia.setCiclo_Materia(this.txt_CicloMateria2.getText());
         materia.setEstado_Materia(this.chkb_estado_materia2.isSelected());
-   
+
         materia.setCod_Facultad(facultad.getCod_Facultad());
 
         Integer id = materia.guardar_materias(con); //GUARDA el REGISTRO y retorna el ID generado
@@ -642,25 +643,25 @@ private Conexion con;
             materia.setCod_Materia(id.intValue());
             cbx_materias2.addItem(materia);
             this.btn_Nuevo_Materia2ActionPerformed(null);
-           
+
             JOptionPane.showMessageDialog(null, "El Registro se Guardo con Exito");
         } else {
             JOptionPane.showMessageDialog(null, "Error , Falló al Guardar el Registro");
-        } 
-      
+        }
+
     }//GEN-LAST:event_btn_GuardarMateria2ActionPerformed
 
     private void btn_Actualizar_Materias2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Actualizar_Materias2ActionPerformed
         MateriasD materia = (MateriasD) cbx_materias2.getSelectedItem();
         Facultades facultad = (Facultades) cbx_Cod_Facultad2.getSelectedItem();
-        
+
         if (materia != null && materia.getNombre_Materia() != null) {
             materia.setNombre_Materia(this.txt_NombreMateria2.getText());
             materia.setAbrev_Materia(this.txt_Abreviatura_Materia2.getText());
             materia.setUV(Integer.valueOf(this.txt_UV2.getText()));
             materia.setCiclo_Materia(this.txt_CicloMateria2.getText());
             materia.setEstado_Materia(this.chkb_estado_materia2.isSelected());
-            
+
             materia.setCod_Facultad(facultad.getCod_Facultad());
             if (materia.actualizar_materia(con)) {
                 JOptionPane.showMessageDialog(null, "El Registro se actualizó con Exito");
@@ -670,7 +671,7 @@ private Conexion con;
                 JOptionPane.showMessageDialog(null, "Error , Fallo al actualizar el Registro");
             }
         }
-        
+
     }//GEN-LAST:event_btn_Actualizar_Materias2ActionPerformed
 
     private void btn_EliminarMaterias2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_EliminarMaterias2ActionPerformed
@@ -687,7 +688,7 @@ private Conexion con;
                 }
             }
         }
-        
+
     }//GEN-LAST:event_btn_EliminarMaterias2ActionPerformed
 
     private void cbx_materias2ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbx_materias2ItemStateChanged
@@ -701,31 +702,31 @@ private Conexion con;
                 this.chkb_estado_materia2.setSelected(item.isEstado_Materia());
                 this.txt_NombreMateria2.setText(item.getNombre_Materia());
                 this.txt_UV2.setText(String.valueOf(item.getUV()));
+            } else {
+                controlesMaterias(true);
             }
-            else
-            controlesMaterias(true);
         }
-        
+
     }//GEN-LAST:event_cbx_materias2ItemStateChanged
 
     private void btn_Nuevo_Materia2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Nuevo_Materia2ActionPerformed
         this.cbx_Cod_Facultad2.setSelectedIndex(0);
-        this.txt_NombreMateria2.setText(""); 
+        this.txt_NombreMateria2.setText("");
         this.txt_Abreviatura_Materia2.setText("");
-         this.txt_UV2.setText("");
+        this.txt_UV2.setText("");
         this.txt_CicloMateria2.setText("");
         this.chkb_estado_materia2.setSelected(false);
         this.cbx_materias2.setSelectedIndex(0);
-    
+
     }//GEN-LAST:event_btn_Nuevo_Materia2ActionPerformed
 
     private void btn_Guardar_Facultad2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Guardar_Facultad2ActionPerformed
         Facultades facultad = new Facultades();
         try {
-            
+
             facultad.setNombre_Facultad(this.Txt_Nombre_Facultad2.getText());
             facultad.setEstado_Facultad(this.chkb_estado_facultad2.isSelected());
-            
+
         } catch (Exception ex) {
             Logger.getLogger(Materias.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -738,13 +739,13 @@ private Conexion con;
             if (facultad.isEstado_Facultad()) {
                 cbx_Cod_Facultad2.addItem(facultad);
             }
-           
-           //NO SE TOMARÁ EN CUENTA PORQUE NO DEPENDE DE NADIE this.btn_nuevo_unidadActionPerformed(null);
+
+            //NO SE TOMARÁ EN CUENTA PORQUE NO DEPENDE DE NADIE this.btn_nuevo_unidadActionPerformed(null);
             JOptionPane.showMessageDialog(null, "El Registro de facultad se Guardo con Exito");
         } else {
             JOptionPane.showMessageDialog(null, "Error , Falló al Guardar el Registro de Facultad");
         }
-        
+
     }//GEN-LAST:event_btn_Guardar_Facultad2ActionPerformed
 
     private void btn_Eliminar_Facultad2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Eliminar_Facultad2ActionPerformed
@@ -765,11 +766,11 @@ private Conexion con;
 
     private void btn_Actualizar_Facultad2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Actualizar_Facultad2ActionPerformed
         Facultades facultad = (Facultades) cbx_facultades2.getSelectedItem();
-        
+
         if (facultad != null && facultad.getNombre_Facultad() != null) {
             facultad.setNombre_Facultad(this.Txt_Nombre_Facultad2.getText());
             facultad.setEstado_Facultad(this.chkb_estado_facultad2.isSelected());
-            
+
             if (facultad.actualizar_facultad(con)) {
                 JOptionPane.showMessageDialog(null, "El Registro de facutlad se actualizó con Exito");
                 this.btn_Nuevo_Facultad2ActionPerformed(null);
@@ -793,7 +794,7 @@ private Conexion con;
                 controlesFacultades(false);
                 this.Txt_Nombre_Facultad2.setText(item.getNombre_Facultad());
                 this.chkb_estado_facultad2.setSelected(item.isEstado_Facultad());
-          
+
             } else {
                 controlesFacultades(true);
             }
@@ -805,12 +806,12 @@ private Conexion con;
     }//GEN-LAST:event_cbx_SeccionesActionPerformed
 
     private void btn_Nuevo_SeccionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Nuevo_SeccionesActionPerformed
-       //Secciones
-         this.txt_Nombre_Seccion.setText("");
+        //Secciones
+        this.txt_Nombre_Seccion.setText("");
         this.chkb_Estado_Seccion.setSelected(false);
         this.cbx_Secciones.setSelectedIndex(0);
         this.cbx_Cod_Materia.setSelectedItem(0);
-        
+
     }//GEN-LAST:event_btn_Nuevo_SeccionesActionPerformed
 
     private void btn_Guardar_SeccionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Guardar_SeccionesActionPerformed
@@ -826,28 +827,28 @@ private Conexion con;
         if (id != null) {
             seccion.setCod_Seccion(id.intValue());
             cbx_Secciones.addItem(seccion);
-          
-           this.btn_Nuevo_SeccionesActionPerformed(null);
-          
+
+            this.btn_Nuevo_SeccionesActionPerformed(null);
+
             JOptionPane.showMessageDialog(null, "El Registro de seccion se Guardo con Exito");
         } else {
             JOptionPane.showMessageDialog(null, "Error , Falló al Guardar el Registro de sección");
         }
-       
-        
+
+
     }//GEN-LAST:event_btn_Guardar_SeccionesActionPerformed
 
     private void btn_Actualizar_SeccionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Actualizar_SeccionesActionPerformed
         //
         Secciones seccion = (Secciones) cbx_Secciones.getSelectedItem();
         MateriasD materia = (MateriasD) cbx_Cod_Materia.getSelectedItem();
-        
-        if(seccion != null && seccion.getNombre_Seccion() != null){
+
+        if (seccion != null && seccion.getNombre_Seccion() != null) {
             seccion.setNombre_Seccion(this.txt_Nombre_Seccion.getText());
             seccion.setEstado_Seccion(this.chkb_Estado_Seccion.isSelected());
-            
+
             seccion.setCod_Materia(materia.getCod_Materia());
-            if(seccion.actualizar_seccion(con)){
+            if (seccion.actualizar_seccion(con)) {
                 JOptionPane.showMessageDialog(null, "El Registro Sección se actualizó con Exito");
                 this.btn_Nuevo_SeccionesActionPerformed(null);
                 obtenerSecciones();
@@ -855,26 +856,26 @@ private Conexion con;
                 JOptionPane.showMessageDialog(null, "Error , Falló al actualizar el Registro");
             }
         }
-        
+
     }//GEN-LAST:event_btn_Actualizar_SeccionesActionPerformed
 
     private void btn_Eliminar_SeccionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Eliminar_SeccionesActionPerformed
         // TODO add your handling code here:
         Secciones seccion = (Secciones) cbx_Secciones.getSelectedItem();
-        if(seccion !=null && seccion.getNombre_Seccion() != null){
+        if (seccion != null && seccion.getNombre_Seccion() != null) {
             int result = JOptionPane.showConfirmDialog(this, "Desea Eliminar el Registro", "Salir", JOptionPane.YES_NO_OPTION);
-            if (result == JOptionPane.YES_NO_OPTION){
-               if(seccion.eliminar_seccion(con)){
-                  JOptionPane.showMessageDialog(null, "El Registro Seccion se Eliminó con Exito");  
-                  this.btn_Nuevo_SeccionesActionPerformed(null);
-                  obtenerSecciones();
-               } else {
-                  JOptionPane.showMessageDialog(null, "Error , Falló al Eliminar el Registro"); 
-               } 
+            if (result == JOptionPane.YES_NO_OPTION) {
+                if (seccion.eliminar_seccion(con)) {
+                    JOptionPane.showMessageDialog(null, "El Registro Seccion se Eliminó con Exito");
+                    this.btn_Nuevo_SeccionesActionPerformed(null);
+                    obtenerSecciones();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Error , Falló al Eliminar el Registro");
+                }
             }
-            
+
         }
-        
+
     }//GEN-LAST:event_btn_Eliminar_SeccionesActionPerformed
 
 

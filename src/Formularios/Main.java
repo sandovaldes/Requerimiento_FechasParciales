@@ -3,101 +3,39 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package Formularios;
+
 import Clases.Conexion;
-import Clases.tablas.*;
-import java.beans.PropertyVetoException;
+import Clases.tablas.Bitacoras;
+import Clases.tablas.Usuarios;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
+
 /**
  *
- * @author Nataly
+ * @author Erika
  */
 public class Main extends javax.swing.JFrame {
+
     private Usuarios usuario;
     private Conexion con;
+
     /**
      * Creates new form Main
+     *
+     * @param nombreDeUsuario
      */
-   
- public Main(String nombreDeUsuario) throws SQLException {
-        
+    public Main(String nombreDeUsuario) throws SQLException {
+        initComponents();
         this.setExtendedState(Main.MAXIMIZED_BOTH);
         con = new Conexion();
         usuario = Usuarios.getUsuario(con, nombreDeUsuario);
 
-        lbl_status.setText(usuario.getPersona().nombreCompleto() + ", " + usuario.getPersona().getEstudios_Superiores());
-
-        MenuFormulario.addMenuListener(new MenuListener() {
-            @Override
-            public void menuSelected(MenuEvent e) {
-                try {
-                    Disponibilidad_D dispForm = new Disponibilidad_D(usuario);
-                    jDesktopPane1.add(dispForm);
-                    dispForm.show();
-                } catch (SQLException ex) {
-                    Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-
-            @Override
-            public void menuDeselected(MenuEvent e) {
-            }
-
-            @Override
-            public void menuCanceled(MenuEvent e) {
-            }
-        });
-
-        MenuBitacora.addMenuListener(new MenuListener() {
-            @Override
-            public void menuSelected(MenuEvent e) {
-                try {
-                    BitacoraForm bitacora = new BitacoraForm();
-                    jDesktopPane1.add(bitacora);
-                    bitacora.show();
-                } catch (Exception ex) {
-                    Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-
-            @Override
-            public void menuDeselected(MenuEvent e) {
-
-            }
-
-            @Override
-            public void menuCanceled(MenuEvent e) {
-
-            }
-        });
-
-        MenuReporte.addMenuListener(new MenuListener() {
-            @Override
-            public void menuSelected(MenuEvent e) {
-                try {
-                    ReporteFinalForm repFinal = new ReporteFinalForm(usuario);
-                    jDesktopPane1.add(repFinal);
-                    repFinal.show();
-                } catch (Exception ex) {
-                    Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-
-            @Override
-            public void menuDeselected(MenuEvent e) {
-
-            }
-
-            @Override
-            public void menuCanceled(MenuEvent e) {
-
-            }
-        });
+        lbl_status.setText(usuario.getPersona().nombreCompleto());
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -108,299 +46,169 @@ public class Main extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        desktopPane = new javax.swing.JDesktopPane();
-        menuBar = new javax.swing.JMenuBar();
-        fileMenu = new javax.swing.JMenu();
-        openMenuItem = new javax.swing.JMenuItem();
-        saveAsMenuItem = new javax.swing.JMenuItem();
-        exitMenuItem = new javax.swing.JMenuItem();
-        editMenu = new javax.swing.JMenu();
-        cutMenuItem = new javax.swing.JMenuItem();
-        copyMenuItem = new javax.swing.JMenuItem();
-        pasteMenuItem = new javax.swing.JMenuItem();
-        deleteMenuItem = new javax.swing.JMenuItem();
-        saveMenuItem = new javax.swing.JMenuItem();
-        helpMenu = new javax.swing.JMenu();
-        contentMenuItem = new javax.swing.JMenuItem();
-        aboutMenuItem = new javax.swing.JMenuItem();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jMenu1 = new javax.swing.JMenu();
-        jMenu2 = new javax.swing.JMenu();
+        jDesktopPane1 = new javax.swing.JDesktopPane();
+        jXStatusBar1 = new org.jdesktop.swingx.JXStatusBar();
+        lbl_status = new javax.swing.JLabel();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        MenuFormulario = new javax.swing.JMenu();
+        submenuF1 = new javax.swing.JMenuItem();
+        submenuF2 = new javax.swing.JMenuItem();
+        MenuMantenimientos = new javax.swing.JMenu();
+        menuMttoPersonas = new javax.swing.JMenuItem();
+        menuMttoMaterias = new javax.swing.JMenuItem();
+        menuMttoUsuarios = new javax.swing.JMenuItem();
+        MenuBitacora = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        fileMenu.setMnemonic('f');
-        fileMenu.setText("File");
-        fileMenu.addActionListener(new java.awt.event.ActionListener() {
+        javax.swing.GroupLayout jDesktopPane1Layout = new javax.swing.GroupLayout(jDesktopPane1);
+        jDesktopPane1.setLayout(jDesktopPane1Layout);
+        jDesktopPane1Layout.setHorizontalGroup(
+            jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        jDesktopPane1Layout.setVerticalGroup(
+            jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 332, Short.MAX_VALUE)
+        );
+
+        jXStatusBar1.setLayout(new java.awt.GridLayout(1, 0));
+        jXStatusBar1.add(lbl_status);
+
+        MenuFormulario.setText("Formularios");
+
+        submenuF1.setText("Reserva de Parcial");
+        submenuF1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                fileMenuActionPerformed(evt);
+                submenuF1ActionPerformed(evt);
             }
         });
+        MenuFormulario.add(submenuF1);
 
-        openMenuItem.setMnemonic('o');
-        openMenuItem.setText("Reserva");
-        openMenuItem.addActionListener(new java.awt.event.ActionListener() {
+        submenuF2.setText("Solicitar Recurso");
+        submenuF2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                openMenuItemActionPerformed(evt);
+                submenuF2ActionPerformed(evt);
             }
         });
-        fileMenu.add(openMenuItem);
+        MenuFormulario.add(submenuF2);
 
-        saveAsMenuItem.setMnemonic('a');
-        saveAsMenuItem.setText("Save As ...");
-        saveAsMenuItem.setDisplayedMnemonicIndex(5);
-        fileMenu.add(saveAsMenuItem);
+        jMenuBar1.add(MenuFormulario);
 
-        exitMenuItem.setMnemonic('x');
-        exitMenuItem.setText("Salir");
-        exitMenuItem.addActionListener(new java.awt.event.ActionListener() {
+        MenuMantenimientos.setText("Mantenimientos");
+
+        menuMttoPersonas.setText("Personas");
+        menuMttoPersonas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                exitMenuItemActionPerformed(evt);
+                menuMttoPersonasActionPerformed(evt);
             }
         });
-        fileMenu.add(exitMenuItem);
+        MenuMantenimientos.add(menuMttoPersonas);
 
-        menuBar.add(fileMenu);
-
-        editMenu.setMnemonic('e');
-        editMenu.setText("Mantenimiento");
-
-        cutMenuItem.setMnemonic('t');
-        cutMenuItem.setText("Aulas");
-        editMenu.add(cutMenuItem);
-
-        copyMenuItem.setMnemonic('y');
-        copyMenuItem.setText("Facultades");
-        editMenu.add(copyMenuItem);
-
-        pasteMenuItem.setMnemonic('p');
-        pasteMenuItem.setText("materias");
-        editMenu.add(pasteMenuItem);
-
-        deleteMenuItem.setMnemonic('d');
-        deleteMenuItem.setText("tipo de recursos");
-        editMenu.add(deleteMenuItem);
-
-        saveMenuItem.setMnemonic('s');
-        saveMenuItem.setText("recursos");
-        editMenu.add(saveMenuItem);
-
-        menuBar.add(editMenu);
-
-        helpMenu.setMnemonic('h');
-        helpMenu.setText("Help");
-        helpMenu.addActionListener(new java.awt.event.ActionListener() {
+        menuMttoMaterias.setText("Materias");
+        menuMttoMaterias.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                helpMenuActionPerformed(evt);
+                menuMttoMateriasActionPerformed(evt);
             }
         });
+        MenuMantenimientos.add(menuMttoMaterias);
 
-        contentMenuItem.setMnemonic('c');
-        contentMenuItem.setText("roles");
-        contentMenuItem.addActionListener(new java.awt.event.ActionListener() {
+        menuMttoUsuarios.setText("Usuarios");
+        menuMttoUsuarios.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                contentMenuItemActionPerformed(evt);
+                menuMttoUsuariosActionPerformed(evt);
             }
         });
-        helpMenu.add(contentMenuItem);
+        MenuMantenimientos.add(menuMttoUsuarios);
 
-        aboutMenuItem.setMnemonic('a');
-        aboutMenuItem.setText("personas");
-        aboutMenuItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                aboutMenuItemActionPerformed(evt);
-            }
-        });
-        helpMenu.add(aboutMenuItem);
+        jMenuBar1.add(MenuMantenimientos);
 
-        jMenuItem1.setText("secciones");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
-            }
-        });
-        helpMenu.add(jMenuItem1);
+        MenuBitacora.setText("Bitacora");
+        jMenuBar1.add(MenuBitacora);
 
-        menuBar.add(helpMenu);
-
-        jMenu1.setText("bitacora");
-        jMenu1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenu1ActionPerformed(evt);
-            }
-        });
-        menuBar.add(jMenu1);
-
-        jMenu2.setText("formularios");
-        jMenu2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenu2ActionPerformed(evt);
-            }
-        });
-        menuBar.add(jMenu2);
-
-        setJMenuBar(menuBar);
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
+            .addComponent(jDesktopPane1)
+            .addComponent(jXStatusBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 698, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 279, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jDesktopPane1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jXStatusBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void exitMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitMenuItemActionPerformed
-        System.exit(0);
-    }//GEN-LAST:event_exitMenuItemActionPerformed
-
-    private void contentMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_contentMenuItemActionPerformed
-         try {
-            DocenteForm docenteForm = new DocenteForm();
-            jDesktopPane1.add(docenteForm);
-            docenteForm.show();
-            docenteForm.setMaximizable(true);
-        } catch (SQLException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-        }:
-    }//GEN-LAST:event_contentMenuItemActionPerformed
-
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-            try {
-            DocenteForm docenteForm = new DocenteForm();
-            jDesktopPane1.add(docenteForm);
-            docenteForm.show();
-            docenteForm.setMaximizable(true);
-        } catch (SQLException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
-
-    private void openMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openMenuItemActionPerformed
-            try {
-            DocenteForm docenteForm = new DocenteForm();
-            jDesktopPane1.add(docenteForm);
-            docenteForm.show();
-            docenteForm.setMaximizable(true);
-        } catch (SQLException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_openMenuItemActionPerformed
-
-    private void helpMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_helpMenuActionPerformed
-     try {
-            DocenteForm docenteForm = new DocenteForm();
-            jDesktopPane1.add(docenteForm);
-            docenteForm.show();
-            docenteForm.setMaximizable(true);
-        } catch (SQLException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-        }        // TODO add your handling code here:
-    }//GEN-LAST:event_helpMenuActionPerformed
-
-    private void aboutMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aboutMenuItemActionPerformed
-     try {
-            DocenteForm docenteForm = new DocenteForm();
-            jDesktopPane1.add(docenteForm);
-            docenteForm.show();
-            docenteForm.setMaximizable(true);
-        } catch (SQLException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-        }        // TODO add your handling code here:
-    }//GEN-LAST:event_aboutMenuItemActionPerformed
-
-    private void jMenu1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu1ActionPerformed
-     try {
-            DocenteForm docenteForm = new DocenteForm();
-            jDesktopPane1.add(docenteForm);
-            docenteForm.show();
-            docenteForm.setMaximizable(true);
-        } catch (SQLException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-        }        // TODO add your handling code here:
-    }//GEN-LAST:event_jMenu1ActionPerformed
-
-    private void jMenu2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu2ActionPerformed
-     try {
-            DocenteForm docenteForm = new DocenteForm();
-            jDesktopPane1.add(docenteForm);
-            docenteForm.show();
-            docenteForm.setMaximizable(true);
-        } catch (SQLException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-        }        // TODO add your handling code here:
-    }//GEN-LAST:event_jMenu2ActionPerformed
-
-    private void fileMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileMenuActionPerformed
-     try {
-            DocenteForm docenteForm = new DocenteForm();
-            jDesktopPane1.add(docenteForm);
-            docenteForm.show();
-            docenteForm.setMaximizable(true);
-        } catch (SQLException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-        }        // TODO add your handling code here:
-    }//GEN-LAST:event_fileMenuActionPerformed
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
+    private void menuMttoPersonasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuMttoPersonasActionPerformed
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            Personas personaForm = new Personas();
+            jDesktopPane1.add(personaForm);
+            personaForm.show();
+            personaForm.setMaximizable(true);
+        } catch (Exception ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
-        //</editor-fold>
+    }//GEN-LAST:event_menuMttoPersonasActionPerformed
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Main().setVisible(true);
-            }
-        });
-    }
+    private void menuMttoMateriasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuMttoMateriasActionPerformed
+        try {
+            Materias materiasForm = new Materias();
+            jDesktopPane1.add(materiasForm);
+            materiasForm.show();
+        } catch (SQLException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_menuMttoMateriasActionPerformed
+
+    private void menuMttoUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuMttoUsuariosActionPerformed
+        try {
+            RolesUsuariosForm rolesUsuariosForm = new RolesUsuariosForm();
+            jDesktopPane1.add(rolesUsuariosForm);
+            rolesUsuariosForm.show();
+        } catch (SQLException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_menuMttoUsuariosActionPerformed
+
+    private void submenuF1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submenuF1ActionPerformed
+        try {
+            Reserva_Parcial reservas = new Reserva_Parcial();
+            jDesktopPane1.add(reservas);
+            reservas.show();
+        } catch (Exception ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_submenuF1ActionPerformed
+
+    private void submenuF2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submenuF2ActionPerformed
+        try {
+            Recursos_solicitados recursos = new Recursos_solicitados();
+            jDesktopPane1.add(recursos);
+            recursos.show();
+        } catch (Exception ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_submenuF2ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenuItem aboutMenuItem;
-    private javax.swing.JMenuItem contentMenuItem;
-    private javax.swing.JMenuItem copyMenuItem;
-    private javax.swing.JMenuItem cutMenuItem;
-    private javax.swing.JMenuItem deleteMenuItem;
-    private javax.swing.JDesktopPane desktopPane;
-    private javax.swing.JMenu editMenu;
-    private javax.swing.JMenuItem exitMenuItem;
-    private javax.swing.JMenu fileMenu;
-    private javax.swing.JMenu helpMenu;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuBar menuBar;
-    private javax.swing.JMenuItem openMenuItem;
-    private javax.swing.JMenuItem pasteMenuItem;
-    private javax.swing.JMenuItem saveAsMenuItem;
-    private javax.swing.JMenuItem saveMenuItem;
+    private javax.swing.JMenu MenuBitacora;
+    private javax.swing.JMenu MenuFormulario;
+    private javax.swing.JMenu MenuMantenimientos;
+    private javax.swing.JDesktopPane jDesktopPane1;
+    private javax.swing.JMenuBar jMenuBar1;
+    private org.jdesktop.swingx.JXStatusBar jXStatusBar1;
+    private javax.swing.JLabel lbl_status;
+    private javax.swing.JMenuItem menuMttoMaterias;
+    private javax.swing.JMenuItem menuMttoPersonas;
+    private javax.swing.JMenuItem menuMttoUsuarios;
+    private javax.swing.JMenuItem submenuF1;
+    private javax.swing.JMenuItem submenuF2;
     // End of variables declaration//GEN-END:variables
-
 }
